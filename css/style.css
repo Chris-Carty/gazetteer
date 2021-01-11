@@ -1,48 +1,3 @@
-#preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9999;
-  overflow: hidden;
-  background: rgb(0, 0, 0);
-}
-#preloader:before {
-  content: "";
-  position: fixed;
-  top: calc(50% - 30px);
-  left: calc(50% - 30px);
-  border: 6px solid #f2f2f2;
-  border-top: 6px solid #56829e;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  -webkit-animation: animate-preloader 1s linear infinite;
-  animation: animate-preloader 1s linear infinite;
-}
-
-@-webkit-keyframes animate-preloader {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes animate-preloader {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
 body {
   margin: 0 !important;
   -webkit-font-smoothing: antialiased !important;
@@ -147,8 +102,9 @@ body {
 
 #flag {
   position: absolute;
+  top: 5px;
   right: 60px;
-  width: 40px;
+  width: 55px;
 }
 
 .widget-layout h4,
@@ -295,5 +251,4 @@ body {
     margin: 15px 15px 15px 7.5px;
     height: 400px;
   }
-
 }

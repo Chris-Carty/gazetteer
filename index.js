@@ -112,8 +112,8 @@ const url =
             console.log(result);
             if (result.status.code == 200) {
               setCountryInfo(result);
-              //getExchangeRate();
-              //getCurrencyName();
+              getExchangeRate();
+              getCurrencyName();
               getCovidData();
               getCountryBorders();
             }
@@ -200,7 +200,6 @@ layersControl.addTo(mymap);
 
 mymap.addLayer(otm);
 
-
 //SET COUNTRY INFO FUNCTION
 function setCountryInfo(result) {
   countryCodeIso3 = result["data"][0]["isoAlpha3"];
@@ -268,8 +267,8 @@ $('#selectCountry').change(function(){
           console.log(result);
           if(result.status.code == 200){
             setCountryInfo(result);
-            //getExchangeRate();
-            //getCurrencyName();
+            getExchangeRate();
+            getCurrencyName();
             getCovidData();
             getCountryBorders();
           }
@@ -305,8 +304,8 @@ function onMapClick(e) {
           console.log(result);
           if (result.status.code == 200) {
             setCountryInfo(result);
-            //getExchangeRate();
-            //getCurrencyName();
+            getExchangeRate();
+            getCurrencyName();
             getCovidData();
             getCountryBorders();
           }
