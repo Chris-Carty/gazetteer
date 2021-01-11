@@ -1,54 +1,42 @@
-// PRELOADER
-
-$(window).on("load", function () {
-  if ($("#preloader").length) {
-    $("#preloader")
-      .delay(2000)
-      .fadeOut("slow", function () {
-        $(this).remove();
-      });
-  }
-});
-
 // DATETIME
 
 function display_c() {
-  var refresh = 1000; // Refresh rate in milli seconds
+  const refresh = 1000; // Refresh rate in milli seconds
   mytime = setTimeout("display_ct()", refresh);
 }
 
 function display_ct() {
-  var x = new Date();
-  var x1 = x.getHours() + ":" + x.getMinutes();
+  const x = new Date();
+  let x1 = x.getHours() + ":" + x.getMinutes();
   document.getElementById("ct").innerHTML = x1;
   display_c();
 }
 
 // GLOBAL VARIABLES //
 
-var lng = 0;
-var lat = 0;
-var area = 0;
-var country = "";
-var countryCodeIso3 = "";
-var countryCodeIso2 = "";
-var bounds;
-var geoJsonBorder;
-var userLng = 0;
-var userLat = 0;
+let lng = 0;
+let lat = 0;
+let area = 0;
+let country = "";
+let countryCodeIso3 = "";
+let countryCodeIso2 = "";
+let bounds;
+let geoJsonBorder;
+let userLng = 0;
+let userLat = 0;
 
 // Vars Exchange Rate
-var currencyCode = "";
-var currencyName = "";
-var currencyBase = "";
-var currencyTimestamp = 0;
-var exchangeRate = 0;
-var roundedExchangeRate = 0;
+let currencyCode = "";
+let currencyName = "";
+let currencyBase = "";
+let currencyTimestamp = 0;
+let exchangeRate = 0;
+let roundedExchangeRate = 0;
 
 ///////////////////////////
 
 // POLYGON STYLING
-var polyStyle = {
+const polyStyle = {
   weight: 2,
   color: "#05716c",
   opacity: 1,
@@ -81,7 +69,7 @@ const url =
 
   function onLocationFound(e) {
 
-    var radius = e.accuracy;
+    let radius = e.accuracy;
 
     L.marker(e.latlng).addTo(mymap)
         .bindPopup("You are within " + radius + " meters from this point").openPopup();
@@ -187,7 +175,7 @@ const baseLayers = {
   Roadmap: ggl3,
 };
 
-var overlays = {
+const overlays = {
   "Timezones (click for time)": timeZones,
   Temperature: tempMap,
   Precipitation: precipitationMap,
@@ -446,7 +434,7 @@ function getCovidData() {
 
 // GET WEATHER DATA ONCLICK & POP-UP - ALTERNATIVE API METHOD
 
-var popup = L.popup();
+let popup = L.popup();
 
 //popup function
 function onMapClickWeather(e) {
@@ -478,8 +466,8 @@ function onMapClickWeather(e) {
         weatherconditionicon = data.weather[0].icon; // ID of weathericon
 
         // Converting Unix UTC Time
-        var utctimecalc = new Date(weathertime * 1000);
-        var months = [
+        let utctimecalc = new Date(weathertime * 1000);
+        let months = [
           "01",
           "02",
           "03",
@@ -493,26 +481,26 @@ function onMapClickWeather(e) {
           "11",
           "12",
         ];
-        var year = utctimecalc.getFullYear();
-        var month = months[utctimecalc.getMonth()];
-        var date = utctimecalc.getDate();
-        var hour = utctimecalc.getHours();
-        var min = utctimecalc.getMinutes();
-        var sec = utctimecalc.getSeconds();
-        var time =
+        let year = utctimecalc.getFullYear();
+        let month = months[utctimecalc.getMonth()];
+        let date = utctimecalc.getDate();
+        let hour = utctimecalc.getHours();
+        let min = utctimecalc.getMinutes();
+        let sec = utctimecalc.getSeconds();
+        let time =
           date + "." + month + "." + year + " " + hour + ":" + min + " Uhr";
 
         // recalculating
-        var weathercondtioniconhtml =
+        let weathercondtioniconhtml =
           "http://openweathermap.org/img/w/" + weatherconditionicon + ".png";
-        var weathertimenormal = time; // reallocate time var....
-        var temperaturecelsius = Math.round((temperature - 273) * 100) / 100; // Converting Kelvin to Celsius
-        var windspeedknots = Math.round(windspeed * 1.94 * 100) / 100; // Windspeed from m/s in Knots; Round to 2 decimals
-        var windspeedkmh = Math.round(windspeed * 3.6 * 100) / 100; // Windspeed from m/s in km/h; Round to 2 decimals
+        let weathertimenormal = time; // reallocate time var....
+        let temperaturecelsius = Math.round((temperature - 273) * 100) / 100; // Converting Kelvin to Celsius
+        let windspeedknots = Math.round(windspeed * 1.94 * 100) / 100; // Windspeed from m/s in Knots; Round to 2 decimals
+        let windspeedkmh = Math.round(windspeed * 3.6 * 100) / 100; // Windspeed from m/s in km/h; Round to 2 decimals
 
 
         //Popup with content
-        var fontsizesmall = 1;
+        const fontsizesmall = 1;
         popup.setContent(
             "<img src=" +
             weathercondtioniconhtml +
