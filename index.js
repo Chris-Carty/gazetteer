@@ -3,7 +3,7 @@
 $(window).on("load", function () {
   if ($("#preloader").length) {
     $("#preloader")
-      .delay(100)
+      .delay(2000)
       .fadeOut("slow", function () {
         $(this).remove();
       });
@@ -19,209 +19,534 @@ function display_c() {
 
 function display_ct() {
   var x = new Date();
-  var x1 = x.getMonth() + 1 + "/" + x.getDate() + "/" + x.getYear();
-  x1 = x1 + " - " + x.getHours() + ":" + x.getMinutes() + ":" + x.getSeconds();
+  var x1 = x.getHours() + ":" + x.getMinutes();
   document.getElementById("ct").innerHTML = x1;
   display_c();
 }
 
-// MAP CONFIGURATION
-
-var mymap = L.map("mapid").setView([53.330873, -4.921875], 0);
-
-var ggl = new L.Google("SATELLITE");
-
-var url =
-    "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
-  attr =
-    'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
-  otm = new L.TileLayer(url, {
-    attribution: attr,
-    /*subdomains:"1234"*/
-  });
-
-var baseLayers = {
-  Light: otm,
-  Satellite: ggl,
-};
-
-var layersControl = L.control.layers(baseLayers, null, { collapsed: false });
-
-layersControl.addTo(mymap);
-
-mymap.addLayer(otm);
-
-// ADD COUNTRY BORDERS
-
-countriesLayer = L.geoJson(countries, {
-  style: countriesStyle,
-  onEachFeature: countriesOnEachFeature,
-}).addTo(mymap);
-
-// COUNTRY BORDER STYLE FUNCTION
-
-/*function highlightFeature(e) {
-  let layer = e.target;
-  layer.setStyle({
-    fillColor: "#1fbfb8",
-    weight: 3,
-    opacity: 1,
-    color: "#05716c",
-    fillOpacity: 0.4,
-  });
-
-  if (!L.Browser.ie && !L.Browser.opera) {
-    layer.bringToFront();
-  }
-} */
-
-/*function resetHighlight(e) {
-  countriesLayer.resetStyle(e.target);
-} */
-
-// VARIABLES
-
-let countriesLayer;
-let popup = L.popup();
-
-// OM MAP CLICK FUNCTION
-
-function onClick(e) {
-  let layer = e.target;
-  layer.setStyle({
-    fillColor: "#1fbfb8",
-    weight: 3,
-    opacity: 1,
-    color: "#05716c",
-    fillOpacity: 0.4,
-  });
-
-  if (!L.Browser.ie && !L.Browser.opera) {
-    layer.bringToFront();
-  }
-
-  mymap.fitBounds(e.target.getBounds());
-  /*
-  popup
-    .setLatLng(e.latlng)
-    .setContent("You clicked the map at " + e.latlng.toString())
-    .openOn(mymap); */
-}
-
-function countriesOnEachFeature(feature, layer) {
-  layer.on({
-    click: onClick,
-  });
-}
-
-// COUNTRY BORDER STYLE FUNCTION (USE FOR COVID COLORS)
-
-function countriesStyle(feature) {
-  return {
-    fillColor: "#31a8ff",
-    weight: 2,
-    opacity: 0,
-    color: "001e36",
-    fillOpacity: 0,
-  };
-}
-/*
-
-
-// VARIABLES TO UPDATE
+// GLOBAL VARIABLES //
 
 var lng = 0;
 var lat = 0;
 var area = 0;
 var country = "";
-var capital = "";
-var currency = "";
-var locationMarker;
+var countryCodeIso3 = "";
+var countryCodeIso2 = "";
 var bounds;
+var geoJsonBorder;
+var userLng = 0;
+var userLat = 0;
 
- 
-// COUNTRY INFORMATION
+// Vars Exchange Rate
+var currencyCode = "";
+var currencyName = "";
+var currencyBase = "";
+var currencyTimestamp = 0;
+var exchangeRate = 0;
+var roundedExchangeRate = 0;
 
-function setCountryInfo(result) {
- /*showInfoBtn();
-  $('#continent').html(result['data'][0]['continent']);
-  capital = result['data'][0]['capital'];
-  currency = result['data'][0]['currencyCode'];
-  country = result['data'][0]['isoAlpha3'];
-  setCountry(result['data'][0]['countryName'])
-  $('#capital').html(capital);
-  $('#languages').html(result['data'][0]['languages']);
-  $('#population').html(formatPopulation(result['data'][0]['population']));
-  lng = (result['data'][0]['north'] + result['data'][0]['south']) / 2;
-  lat = (result['data'][0]['east'] + result['data'][0]['west']) / 2;
-  $('#area').html(`${formatArea(result['data'][0]['areaInSqKm'])} km<sup>2</sup>`);
-  getGeoJson();
-  callGeolocation(lng, lat);  
+///////////////////////////
 
+// POLYGON STYLING
+var polyStyle = {
+  weight: 2,
+  color: "#05716c",
+  opacity: 1,
+  fillColor: "#1fbfb8",
+  fillOpacity: 0.3,
+};
+
+///////////////////////////
+
+// BASE MAP CONFIGURATION
+
+const mymap = L.map("mapid", {
+  minZoom: 2,
+  maxZoom: 15
+}).setView([53.330873, -4.921875], 2);
+
+L.control.scale().addTo(mymap);
+
+const url =
+    "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+  attr =
+    'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+  otm = new L.TileLayer(url, {
+    attribution: attr,
+  });
+
+  // GEOLOCATION
+
+  mymap.locate({setView: true, maxZoom: 3});
+
+  function onLocationFound(e) {
+
+    var radius = e.accuracy;
+
+    L.marker(e.latlng).addTo(mymap)
+        .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+    L.circle(e.latlng, radius).addTo(mymap);
+
+    // GET USER COUNTRY INFO 
+
+    $.ajax({
+      url: "php/getCountryCode.php",
+      type: "POST",
+      dataType: "json",
+      data: {
+        lat: e["latlng"]["lat"],
+        lng: e["latlng"]["lng"],
+      },
+      success: function (result) {
+        console.log(result);
+        $.ajax({
+          url: "php/getCountryInfo.php",
+          type: "POST",
+          dataType: "json",
+          data: {
+            country: result["data"],
+            lang: "en",
+          },
+          success: function (result) {
+            console.log(result);
+            if (result.status.code == 200) {
+              setCountryInfo(result);
+              //getExchangeRate();
+              //getCurrencyName();
+              getCovidData();
+              getCountryBorders();
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            alert(`${textStatus} error in user country info`);
+          },
+        });
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(`${textStatus} error in country info`);
+      },
+    });
+}
+  mymap.on("locationfound", onLocationFound);
+
+  function onLocationError(e) {
+    alert(e.message);
 }
 
-*/
+  mymap.on("locationerror", onLocationError);
 
-/*
+  // GOOGLE MAPS API LAYERS
 
-//HANDLES COUNTRY SELECTION EVENT
+  const ggl = new L.Google("SATELLITE");
 
-$("#selectCountry").change(function () {
+  const ggl2 = new L.Google("TERRAIN");
+
+  const ggl3 = new L.Google("ROADMAP");
+
+  // TIMEZONES OVERLAY //
+
+  const timeZones = new L.LayerGroup();
+
+  L.timezones.bindPopup(function (layer) {
+    return L.Browser.ie? layer.feature.properties.time_zone : new Date().toLocaleString("en-GB", {timeZone:layer.feature.properties.tz_name1st, timeZoneName:"short"});
+  }).addTo(timeZones);
+
+  // WEATHER MAP OVERLAYS
+
+  const pressureMap = new L.LayerGroup();
+
+  const pressureMapUrl = "https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=36e6a7c2681f29437c9062534508e485";
+
+  const pressure = new L.TileLayer(pressureMapUrl, {
+    attribution: attr,
+  }).addTo(pressureMap);
+
+  const precipitationMap = new L.LayerGroup();
+
+  const precipitationMapUrl = "https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=36e6a7c2681f29437c9062534508e485";
+
+  const precipitation = new L.TileLayer(precipitationMapUrl, {
+    attribution: attr,
+  }).addTo(precipitationMap);
+
+  const tempMap = new L.LayerGroup();
+
+  const tempMapUrl = "https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=36e6a7c2681f29437c9062534508e485";
+
+  const temp = new L.TileLayer(tempMapUrl, {
+    attribution: attr,
+  }).addTo(tempMap);
+
+  // LAYER/OVERLAYS CONFIGURATION //
+
+const baseLayers = {
+  "Light (click for weather)": otm,
+  Satellite: ggl,
+  Terrain: ggl2,
+  Roadmap: ggl3,
+};
+
+var overlays = {
+  "Timezones (click for time)": timeZones,
+  Temperature: tempMap,
+  Precipitation: precipitationMap,
+  "Air Pressure": pressureMap
+    };
+
+let layersControl = L.control.layers(baseLayers, overlays, { collapsed: true });
+
+layersControl.addTo(mymap);
+
+mymap.addLayer(otm);
+
+
+//SET COUNTRY INFO FUNCTION
+function setCountryInfo(result) {
+  countryCodeIso3 = result["data"][0]["isoAlpha3"];
+  countryCodeIso2 = result["data"][0]["countryCode"];
+  currencyCode = result["data"][0]["currencyCode"];
+  country = result["data"][0]["countryName"];
+
+  // UPDATE HTML COUNTRY INFO
+  $("#flag").attr(
+    "src",
+    "https://www.countryflags.io/" +
+      countryCodeIso2.toLowerCase() +
+      "/shiny/64.png"
+  );
+  $("#country").html(" " + country);
+  $("#countryCode").html(" " + countryCodeIso3);
+  $("#continent").html(" " + result["data"][0]["continentName"]);
+  $("#capital").html(" " + result["data"][0]["capital"]);
+  $("#population").html(" " + result["data"][0]["population"]);
+  $("#languages").html(" " + result["data"][0]["languages"]);
+}
+
+function setWikiInfo(result) {
+  $("#wikiTitle").html(" " + result["wikiData"][0]["title"]);
+  $("#wikiSummary").html(" " + result["wikiData"][0]["summary"]);
+  $("#wikiFeature").html(" " + result["wikiData"][0]["feature"]);
+  $("#wikiDistance").html(" " + result["wikiData"][0]["distance"]);
+  $("#wikiUrl").html(" " + result["wikiData"][0]["wikipediaUrl"]);
+}
+
+function setCurrencyInfo() {
+  $("#currencyName").html(" " + currencyName);
+  $("#currencyCode").html(" " + currencyCode);
+  $("#exchangeRate").html(" " + roundedExchangeRate);
+  $("#base").html(" " + currencyBase);
+  $("#timestamp").html(" " + currencyTimestamp);
+  $("#source").html(" Open Exchange Rates");
+}
+
+function setCovidData(covidObject) {
+  $("#newTotalCases").html(" " + covidObject.NewConfirmed);
+  $("#totalCases").html(" " + covidObject.TotalConfirmed);
+  $("#covidDeathNew").html(" " + covidObject.NewDeaths);
+  $("#covidDeathTotal").html(" " + covidObject.TotalDeaths);
+  $("#covidDate").html(" " + covidObject.Date);
+  $("#covidSource").html(" JHU Database");
+
+  // COVID DATA GRAPH(OurWorldInData)
+  let iFrameLink = "https://ourworldindata.org/grapher/total-deaths-covid-19?country=" + countryCodeIso3;
+  document.getElementById('graph').src = iFrameLink;
+}
+
+// SELECT COUNTRY FROM DROP-DOWN MENU
+
+$('#selectCountry').change(function(){
   $.ajax({
-    url: "../PHP/getCountryInfo.php",
+      url: "php/getCountryInfo.php",
+      type: "POST",
+      dataType: "json",
+      data: {
+          country: $("#selectCountry").val(),
+          lang: "en"
+      },
+      success: function(result){
+          console.log(result);
+          if(result.status.code == 200){
+            setCountryInfo(result);
+            //getExchangeRate();
+            //getCurrencyName();
+            getCovidData();
+            getCountryBorders();
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+          alert(`${textStatus} error in country info`);
+      }
+  });
+});
+
+// HANDLES MAP CLICK EVENT
+
+function onMapClick(e) {
+  $.ajax({
+    url: "php/getCountryCode.php",
     type: "POST",
     dataType: "json",
     data: {
-      country: $("#selectCountry").val(),
+      lat: e["latlng"]["lat"],
+      lng: e["latlng"]["lng"],
     },
     success: function (result) {
       console.log(result);
-
-      if (result.status.name == "ok") {
-        setCountryInfo(result);
-      }
+      $.ajax({
+        url: "php/getCountryInfo.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+          country: result["data"],
+          lang: "en",
+        },
+        success: function (result) {
+          console.log(result);
+          if (result.status.code == 200) {
+            setCountryInfo(result);
+            //getExchangeRate();
+            //getCurrencyName();
+            getCovidData();
+            getCountryBorders();
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(`${textStatus} error in user country info`);
+        },
+      });
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(`${textStatus} error in country info`);
     },
   });
-});
+}
 
+mymap.on("click", onMapClick);
 
-*/
+// GET GEOJSON COUNTRY BORDERS
 
-/*
-
-// info modal button trigger handler
-$('#infoModal').on('shown.bs.modal', function () {
-  $('#myInput').trigger('focus');
-});
-
-function callGeolocation(lng, lat) {
+function getCountryBorders() {
   $.ajax({
-      url: "libraries/php/getGeolocation.php",
-      type: 'POST',
-      dataType: 'json',
-      data: {
-          q: (lng).toString() + ',' + (lat).toString(),
-          lang: 'en'
-      },
-      success: function(result){
+    url: "php/getCountryBorders.php",
+    type: "POST",
+    dataType: "json",
+    success: function (result) {
+      console.log(result);
+      let countryBorderArr = result.data;
+      let countryBorderObj = countryBorderArr.find(
+        (country) => country.properties.iso_a3 === countryCodeIso3
+      );
 
-          console.log(result);
-
-          if(result.status.code == 200){
-              $('#currency').html(currency);
-              getWeatherData();
-              getExchangeRateData();
-              getISSData();
-          }
-      },
-      error: function(jqXHR, textStatus, errorThrown){
-          alert(`${textStatus} error in geolocation`);
+      if(bounds != undefined){
+        mymap.removeLayer(bounds);
       }
+      bounds = L.geoJSON(countryBorderObj, { style: polyStyle }).addTo(mymap);
+      mymap.flyToBounds(bounds.getBounds(), {
+        animate: true,
+        duration: 1,
+      });
+      
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(`Error in CountryBorders: ${textStatus} ${errorThrown} ${jqXHR}`);
+    },
+  });
+}
+
+// GET WIKIPEDIA DATA
+
+function getWiki(e) {
+  $.ajax({
+    url: "php/getWiki.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      lat: e["latlng"]["lat"],
+      lng: e["latlng"]["lng"],
+    },
+    success: function (result) {
+      console.log(result);
+      setWikiInfo(result);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(`${textStatus} error in getWiki`);
+    },
+  });
+}
+
+mymap.on("click", getWiki);
+
+// GET EXCHANGE RATE DATA
+
+function getExchangeRate() {
+  $.ajax({
+    url: "php/getExchangeRate.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      currency: currencyCode,
+    },
+    success: function (result) {
+      console.log(result);
+      let exchangeRatesObject = result.currencyExchangeRates.rates;
+      exchangeRate = exchangeRatesObject[currencyCode];
+      roundedExchangeRate = Math.round(exchangeRate * 100) / 10;
+      currencyBase = result.currencyExchangeRates.base;
+      currencyTimestamp = result.currencyExchangeRates.timestamp;
+      setCurrencyInfo();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(`Error in getExchangeRate: ${textStatus} ${errorThrown} ${jqXHR}`);
+    },
+  });
+}
+
+// GET CURRENCY NAMES
+
+function getCurrencyName() {
+  $.ajax({
+    url: "php/getCurrencies.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      currency: currencyCode,
+    },
+    success: function (result) {
+      console.log(result);
+      let currencyNameObject = result.currencyName;
+      currencyName = currencyNameObject[currencyCode];
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(`Error in getCurrencyName: ${textStatus} ${errorThrown} ${jqXHR}`);
+    },
+  });
+}
+
+// GET COVID DATA
+
+function getCovidData() {
+  $.ajax({
+    url: "php/getCovidData.php",
+    type: "POST",
+    dataType: "json",
+    success: function (result) {
+      console.log(result);
+      let covidArray = result.covidData;
+      let covidObject = covidArray.find(
+        (country) => country.CountryCode === countryCodeIso2
+      );
+      setCovidData(covidObject);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(`Error in getExchangeRate: ${textStatus} ${errorThrown} ${jqXHR}`);
+    },
   });
 }
 
 
-*/
+// GET WEATHER DATA ONCLICK & POP-UP - ALTERNATIVE API METHOD
+
+var popup = L.popup();
+
+//popup function
+function onMapClickWeather(e) {
+  mymap.fitBounds(e.target.getBounds());
+
+  popup.setLatLng(e.latlng).openOn(mymap);
+
+  //getting json function
+  $(document).ready(function () {
+    $.ajax({
+      url:
+        "https://api.openweathermap.org/data/2.5/weather?lat=" +
+        e.latlng.lat +
+        "&lon=" +
+        e.latlng.lng +
+        "&appid=36e6a7c2681f29437c9062534508e485",
+      dataType: "json",
+      success: function (data) {
+        // storing json data in variables
+        weatherstationname = data.name; // Name of Weatherstation
+        weathertime = data.dt; // Time of weatherdata (UTC)
+        temperature = data.main.temp; // Kelvin
+        temperature_min = data.main.temp_min; // Kelvin
+        temperature_max = data.main.temp_max; // Kelvin
+        windspeed = data.wind.speed; // Meter per second
+        cloudcoverage = data.clouds.all; // Cloudcoverage in %
+        weatherconditionstring = data.weather[0].main; // Weatheartype
+        weatherconditiondescription = data.weather[0].description; // Weatherdescription
+        weatherconditionicon = data.weather[0].icon; // ID of weathericon
+
+        // Converting Unix UTC Time
+        var utctimecalc = new Date(weathertime * 1000);
+        var months = [
+          "01",
+          "02",
+          "03",
+          "04",
+          "05",
+          "06",
+          "07",
+          "08",
+          "09",
+          "10",
+          "11",
+          "12",
+        ];
+        var year = utctimecalc.getFullYear();
+        var month = months[utctimecalc.getMonth()];
+        var date = utctimecalc.getDate();
+        var hour = utctimecalc.getHours();
+        var min = utctimecalc.getMinutes();
+        var sec = utctimecalc.getSeconds();
+        var time =
+          date + "." + month + "." + year + " " + hour + ":" + min + " Uhr";
+
+        // recalculating
+        var weathercondtioniconhtml =
+          "http://openweathermap.org/img/w/" + weatherconditionicon + ".png";
+        var weathertimenormal = time; // reallocate time var....
+        var temperaturecelsius = Math.round((temperature - 273) * 100) / 100; // Converting Kelvin to Celsius
+        var windspeedknots = Math.round(windspeed * 1.94 * 100) / 100; // Windspeed from m/s in Knots; Round to 2 decimals
+        var windspeedkmh = Math.round(windspeed * 3.6 * 100) / 100; // Windspeed from m/s in km/h; Round to 2 decimals
+
+
+        //Popup with content
+        var fontsizesmall = 1;
+        popup.setContent(
+            "<img src=" +
+            weathercondtioniconhtml +
+            "><br>" +
+            weatherconditionstring +
+            ": " +
+            weatherconditiondescription +
+            "<br>Temperature: " +
+            temperaturecelsius +
+            "<br>Cloudcoverage: " +
+            cloudcoverage +
+            "%<br>Windspeed: " +
+            windspeedkmh +
+            "<br><br><font size=" +
+            fontsizesmall +
+            "Source: openweathermap.org<br>Measure time: " +
+            weathertimenormal +
+            "<br>Weatherstation: " +
+            weatherstationname
+        );
+      },
+      error: function () {
+        alert("error receiving wind data from openweathermap");
+      },
+    });
+  });
+  //getting json function ends here
+
+  //popupfunction ends here
+}
+
+//popup
+mymap.on("click", onMapClickWeather);
+
+
+

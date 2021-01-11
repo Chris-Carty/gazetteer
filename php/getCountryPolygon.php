@@ -3,7 +3,7 @@
     $executionStartTime = microtime(true) / 1000;
     
 
-	$url='../JSON/countryBorder.geojson';
+	$url='https://dl.dropboxusercontent.com/s/u80pkrytfop3lol/countries.geojson?dl=0';  $_REQUEST['iso_A3'];
 	
 
 
@@ -29,5 +29,6 @@
 	header('Content-Type: application/json; charset=UTF-8');
 
 	echo json_encode($output); 
+	echo $result
 
 ?>
