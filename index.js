@@ -490,7 +490,7 @@ function onMapClickWeather(e) {
           date + "." + month + "." + year + " " + hour + ":" + min + " Uhr";
 
         // recalculating
-        let weathercondtioniconhtml =
+        var weathercondtioniconhtml =
           "http://openweathermap.org/img/w/" + weatherconditionicon + ".png";
         let weathertimenormal = time; // reallocate time var....
         let temperaturecelsius = Math.round((temperature - 273) * 100) / 100; // Converting Kelvin to Celsius
