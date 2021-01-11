@@ -244,10 +244,11 @@ body {
   .article {
     margin: 15px 7.5px 15px 15px;
     height: 400px;
+    width: 600px !important;
   }
 
   .graph {
-    width: 70% !important;
+    width: 60%;
     margin: 15px 15px 15px 7.5px;
     height: 400px;
   }
