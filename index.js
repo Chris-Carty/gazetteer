@@ -431,7 +431,6 @@ function getCovidData() {
   });
 }
 
-
 // GET WEATHER DATA ONCLICK & POP-UP - ALTERNATIVE API METHOD
 
 let popup = L.popup();
