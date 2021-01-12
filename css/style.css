@@ -5,251 +5,318 @@ body {
   background-color: black !important;
 }
 
-.main {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .header {
-  width: 90%;
-  height: 100%;
-  background-color: black;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 90px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 40px;
   align-items: center;
-  margin-top: 25px;
+  margin-top: 30px;
+  z-index: 750;
+  display: flex;
+  justify-content: center;
+  flex-direction: column-reverse;
 }
 
 .header img {
-  width: 160px;
-  margin: 10px 0px;
+  width: 120px;
 }
 
 .drop-down-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: white;
-  white-space: nowrap;
-  width: 230px;
-  margin: 10px 0px;
+  width: 140px;
+  margin-top: 7px;
 }
 
 .date {
+  visibility: hidden;
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: white;
-  margin: 10px 0px;
+  color: black;
 }
 
 #ct {
-  color: white;
+  visibility: hidden;
+  color: black;
 }
 
 .map-wrapper {
+  width: 100%;
   position: relative;
-  width: 90%;
-  height: 90%;
+}
+
+.button-wrapper {
+  position: absolute;
+  bottom: 1%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 750;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.map-container {
-  width: 100%;
-  height: 100%;
-  margin-bottom: 20px;
-}
-
-#mapid {
-  width: 100%;
-  height: 660px;
-}
-
-.widgets {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
-  background-color: #797979;
-  border-radius: 35px;
-}
-
-.widget-layout {
-  height: 200px;
-  background-color: #d1d1d1;
-  border-radius: 30px;
-  display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  align-items: center;
 }
 
-.widget-layout img,
-.news img {
+.button-wrapper img {
+  width: 40px;
+  margin: 10px 10px;
+}
+
+.button-wrapper img:hover {
+  opacity: 0.3;
+}
+
+.font-style {
+  z-index: 750;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+  border-radius: 20px;
+  width: 80%;
+  height: 65%;
+}
+
+.font-style #close {
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 40px;
+  width: 20px;
+  z-index: 800;
+  pointer-events: auto;
 }
 
-#flag {
+.font-style .span {
+  pointer-events: none;
   position: absolute;
-  top: 5px;
-  right: 60px;
-  width: 55px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  background-color: rgb(255, 255, 255);
+  width: 90%;
+  height: 80%;
+  overflow: hidden;
 }
 
-.widget-layout h4,
-.widget-layout p,
-.news h4,
-.news p {
-  margin: 2.5px 25px;
+.info-text {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.widget-layout h4,
-.news h4 {
-  font-size: 22px;
+.info-text span {
+  font-weight: 600;
 }
 
-.widget-layout p,
-.news p {
+.font-style h4,
+.font-style p,
+.font-style h1 {
+  margin: 4px 25px;
+}
+
+.font-style h4 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.font-style p {
   font-size: 14px;
 }
 
-.widget-layout span,
-.news span {
-  font-weight: 700;
+.font-style h1 {
+  color: rgb(138, 138, 138);
+  font-size: 12px;
 }
 
-.country {
+#covid-graph {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#flag {
   position: relative;
-  margin: 15px 15px;
+  width: 60px;
+  margin-left: 25px;
 }
 
-.currency {
-  position: relative;
-  margin: 0px 15px;
+#mapid {
+  width: 100vw;
+  height: 100vh;
 }
-
-.covid {
-  position: relative;
-  margin: 15px 15px;
-}
-
-.news {
-  position: relative;
-  width: 90%;
-  height: 1000px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  margin-top: 20px;
-  background-color: #797979;
-  border-radius: 35px;
-}
-
-.article {
-  position: relative;
-  height: 50%;
-  background-color: #d1d1d1;
-  border-radius: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  margin: 15px 15px 7.5px 15px;
-}
-
-.graph-wrapper {
-  width: 90%;
-  height: 85%;
-}
-
-.graph {
-  position: relative;
-  height: 50%;
-  background-color: #d1d1d1;
-  border-radius: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  margin: 7.5px 15px 15px 15px;
-}
-
 /* MEDIA QUERIES */
 
 @media only screen and (min-width: 768px) {
   /* For desktop: */
   .header {
-    width: 90%;
-    height: 70px;
-    background-color: black;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    position: absolute;
+    top: 2%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+    align-items: center;
     margin-top: 25px;
+    z-index: 750;
+  }
+
+  .header img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 160px;
   }
 
   .drop-down-wrapper {
-    width: 220px;
+    position: absolute;
+    top: 50%;
+    left: 100px;
+    transform: translate(-50%, -50%);
+    width: 135px;
+    margin-top: 0px;
+  }
+
+  .date {
+    visibility: visible;
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: black;
+  }
+
+  #ct {
+    visibility: visible;
+    color: black;
   }
 
   .map-wrapper {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    position: relative;
+  }
+
+  .button-wrapper {
+    position: absolute;
+    bottom: 1%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 750;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-top: 20px;
   }
 
-  .widgets {
+  .button-wrapper img {
+    width: 40px;
+    margin: 10px 10px;
+  }
+
+  .button-wrapper img:hover {
+    opacity: 0.3;
+  }
+
+  .font-style {
+    z-index: 750;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1),
+      0 5px 15px rgba(0, 0, 0, 0.07);
+    border-radius: 20px;
+    width: 50%;
+    height: 50%;
+    pointer-events: none;
+  }
+
+  .font-style #close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    z-index: 800;
+    pointer-events: auto;
+  }
+
+  .font-style .span {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    background-color: rgb(255, 255, 255);
+    max-width: 80%;
+    max-height: 100%;
+  }
+
+  .info-text {
+    width: 100%;
+    height: 100%;
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    margin-left: 20px;
-    background-color: #797979;
-    border-radius: 35px;
+    justify-content: center;
   }
 
-  .map-container {
-    width: 200% !important;
-    height: 100%;
-    margin-bottom: 0px !important;
+  .info-text span {
+    font-weight: 600;
+  }
+
+  .font-style h4,
+  .font-style p {
+    margin: 2.5px 25px;
+  }
+
+  .font-style h4 {
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .font-style p {
+    font-size: 14px;
+  }
+
+  #covid-graph {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #flag {
+    position: relative;
+    width: 60px;
+    margin-left: 25px;
   }
 
   #mapid {
-    width: 100%;
-    height: 660px;
-  }
-
-  .news {
-    flex-direction: row !important;
-    width: 90%;
-    height: 100%;
-  }
-
-  .article {
-    margin: 15px 7.5px 15px 15px;
-    height: 400px;
-    width: 600px !important;
-  }
-
-  .graph {
-    width: 60%;
-    margin: 15px 15px 15px 7.5px;
-    height: 400px;
+    width: 100vw;
+    height: 100vh;
   }
 }

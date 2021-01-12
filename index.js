@@ -12,6 +12,8 @@ function display_ct() {
   display_c();
 }
 
+///////////////////////////
+
 // GLOBAL VARIABLES //
 
 let lng = 0;
@@ -49,9 +51,9 @@ const polyStyle = {
 // BASE MAP CONFIGURATION
 
 const mymap = L.map("mapid", {
-  minZoom: 2,
+  minZoom: 3,
   maxZoom: 15
-}).setView([53.330873, -4.921875], 2);
+}).setView([53.330873, -4.921875], 3);
 
 L.control.scale().addTo(mymap);
 
@@ -63,9 +65,11 @@ const url =
     attribution: attr,
   });
 
-  // GEOLOCATION
+///////////////////////////
 
-  mymap.locate({setView: true, maxZoom: 3});
+// GEOLOCATION
+
+  mymap.locate({setView: true, maxZoom: 5.5});
 
   function onLocationFound(e) {
 
@@ -74,7 +78,7 @@ const url =
     L.marker(e.latlng).addTo(mymap)
         .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
-    L.circle(e.latlng, radius).addTo(mymap);
+    L.circle(e.latlng, radius).addTo(mymap); 
 
     // GET USER COUNTRY INFO 
 
@@ -123,6 +127,9 @@ const url =
 }
 
   mymap.on("locationerror", onLocationError);
+
+  ///////////////////////////
+
 
   // GOOGLE MAPS API LAYERS
 
@@ -188,6 +195,8 @@ layersControl.addTo(mymap);
 
 mymap.addLayer(otm);
 
+///////////////////////////
+
 //SET COUNTRY INFO FUNCTION
 function setCountryInfo(result) {
   countryCodeIso3 = result["data"][0]["isoAlpha3"];
@@ -237,7 +246,7 @@ function setCovidData(covidObject) {
 
   // COVID DATA GRAPH(OurWorldInData)
   let iFrameLink = "https://ourworldindata.org/grapher/total-deaths-covid-19?country=" + countryCodeIso3;
-  document.getElementById('graph').src = iFrameLink;
+  document.getElementById('covid-graph').src = iFrameLink;
 }
 
 // SELECT COUNTRY FROM DROP-DOWN MENU
@@ -266,6 +275,7 @@ $('#selectCountry').change(function(){
       }
   });
 });
+
 
 // HANDLES MAP CLICK EVENT
 
@@ -299,7 +309,7 @@ function onMapClick(e) {
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-          alert(`${textStatus} error in user country info`);
+          alert(`Please select a country!`);
         },
       });
     },
@@ -332,6 +342,7 @@ function getCountryBorders() {
       mymap.flyToBounds(bounds.getBounds(), {
         animate: true,
         duration: 1,
+        maxZoom: 5.5,
       });
       
     },
@@ -533,6 +544,58 @@ function onMapClickWeather(e) {
 
 //popup
 mymap.on("click", onMapClickWeather);
+
+// BUTTONS
+
+function showLocation() {
+  var info = document.getElementById('info')
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+}
+
+function closeInfo() {
+  showLocation()
+}
+
+function showCurrency() {
+  var info = document.getElementById('info2')
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+}
+
+function closeInfo2() {
+  showCurrency()
+}
+
+function showCovid() {
+  var info = document.getElementById('info3')
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+}
+
+function closeInfo3() {
+  showCovid()
+}
+
+function showGraph() {
+  var info = document.getElementById('info4')
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+}
+
+function closeInfo4() {
+  showGraph()
+}
+
+function showWiki() {
+  var info = document.getElementById('info5')
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+}
+
+function closeInfo5() {
+  showWiki()
+}
 
 
 

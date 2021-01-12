@@ -27,10 +27,9 @@
   <body onload="display_ct();">
     <div class="main">
       <div class="header">
-        <img src="media/svg/gazetteer-logo.svg" />
         <div class="drop-down-wrapper">
           <select id="selectCountry" class="form-control form-control-sm">
-            <option value="" disabled selected>Select Country or click map</option>
+            <option value="" disabled selected>Select Country or Click Map</option>
             <option value="AF">Afghanistan</option>
             <option value="AX">Åland Islands</option>
             <option value="AL">Albania</option>
@@ -282,35 +281,65 @@
             <option value="ZW">Zimbabwe</option>
           </select>
         </div>
+        <img src="media/svg/gazetteer-logo.svg" />
         <div class="date"><span id="ct"></span> GMT</div>
       </div>
       <div class="map-wrapper">
-        <div class="map-container">
-          <div id="mapid"></div>
+        <div class="button-wrapper">
+          <div id="location" onclick="showLocation()">
+            <img src="media/svg/location.svg">
+          </div>
+          <div id="currency" onclick="showCurrency()">
+            <img src="media/svg/currency.svg">
+          </div>
+          <div id="covid" onclick="showCovid()">
+            <img src="media/svg/covid.svg">
+          </div>
+          <div id="graph" onclick="showGraph()">
+            <img src="media/svg/graph.svg">
+          </div>
+          <div id="wiki" onclick="showWiki()">
+            <img src="media/svg/wiki.svg">
+          </div>
         </div>
-        <div class="widgets">
-          <div class="widget-layout country">
-            <img src="media/svg/location.svg" />
-            <img id="flag" src="" />
-            <h4>Country Data</h4>
+          <div id="mapid"></div>
+      </div>
+
+      <!-- CONTENT SHOWN ON BUTTON CLICK-->
+      <div id="info" class="font-style" style="visibility: hidden;">
+          <img id="close" src="media/svg/close.svg" onclick="closeInfo()"/>
+        <div class="span">
+          <div class="info-text">
+            <img id="flag" src="" /></br>
+            <h4>Country Data</h4></br>
             <p>Country:<span id="country"></span></p>
             <p>Continent:<span id="continent"></span></p>
             <p>Capital:<span id="capital"></span></p>
             <p>Population:<span id="population"></span></p>
             <p>Languages:<span id="languages"></span></p>
           </div>
-          <div class="widget-layout currency">
-            <img src="media/svg/currency.svg" />
-            <h4>Currency Data</h4>
+        </div>
+      </div>
+
+      <div id="info2" class="font-style" style="visibility: hidden;">
+        <img id="close" src="media/svg/close.svg" onclick="closeInfo2()"/>
+        <div class="span">
+          <div class="info-text">
+            <h4>Currency Data</h4></br>
             <p>Currency:<span id="currencyName"></span></p>
             <p>Exchange Rate:<span id="exchangeRate"></span></p>
             <p>Base:<span id="base"></span></p>
             <p>Timestamp:<span id="timestamp"></span></p>
             <p>Source:<span id="source"></span></p>
           </div>
-          <div class="widget-layout covid">
-            <img src="media/svg/covid.svg" />
-            <h4>Covid-19 Data (JHU)</h4>
+        </div>
+      </div>
+
+      <div id="info3" class="font-style" style="visibility: hidden;">
+        <img id="close" src="media/svg/close.svg" onclick="closeInfo3()"/>
+        <div class="span">
+            <div class="info-text">
+            <h4>Covid-19 Data</h4></br>
             <p>New Confirmed Cases:<span id="newTotalCases"></span></p>
             <p>Total Confirmed Cases:<span id="totalCases"></span></p>
             <p>New Deaths:<span id="covidDeathNew"></span></p>
@@ -319,23 +348,27 @@
           </div>
         </div>
       </div>
-      <div class="news">
-        <div class="article">
-          <img src="media/svg/wiki.svg" />
-          <p>Wikipedia Article (within 20km of map click)</p>
-          <h4>Title:<span id="wikiTitle"></span></h4>
-          <p>Summary:<span id="wikiSummary"></span></p>
-          <p>Feature:<span id="wikiFeature"></span></p>
-          <p>Distance(km):<span id="wikiDistance"></span></p>
-          <p>URL:<span id="wikiUrl"></span></p>
-        </div>
-        <div class="graph">
-          <div class="graph-wrapper">
-            <iframe id="graph" src="https://ourworldindata.org/grapher/total-deaths-covid-19?country=ITA" style="width: 100%; height: 100%; border: 0px none;"></iframe>
-          </div>
+
+      <div id="info4" class="font-style" style="visibility: hidden;">
+        <img id="close" src="media/svg/close.svg" onclick="closeInfo4()"/>
+          <iframe id="covid-graph" src="https://ourworldindata.org/grapher/total-deaths-covid-19?country=ITA" style="height: 90%; width: 90%; border: 0px none;"></iframe>
+      </div>
+
+      <div id="info5" class="font-style" style="visibility: hidden;">
+        <img id="close" src="media/svg/close.svg" onclick="closeInfo5()"/>
+        <div class="span"> 
+          <div class="info-text">
+            <h4>Title:<span id="wikiTitle"></span></h4></br>
+            <p>Summary:<span id="wikiSummary"></span></p>
+            <p>Feature:<span id="wikiFeature"></span></p>
+            <p>Distance(km):<span id="wikiDistance"></span></p>
+            <h1>url:<span id="wikiUrl"></span></h1>
+            <h1>Wikipedia Article (within 20km of map click)</h1>
+          </div> 
         </div>
       </div>
     </div>
+    
 
     <script
       type="application/javascript"
