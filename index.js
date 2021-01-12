@@ -341,7 +341,7 @@ function getCountryBorders() {
       bounds = L.geoJSON(countryBorderObj, { style: polyStyle }).addTo(mymap);
       mymap.flyToBounds(bounds.getBounds(), {
         animate: true,
-        duration: 1,
+        duration: 2.5,
         maxZoom: 5.5,
       });
       
