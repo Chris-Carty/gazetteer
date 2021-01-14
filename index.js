@@ -88,8 +88,8 @@ const url =
             console.log(result);
             if (result.status.code == 200) {
               setCountryInfo(result);
-              //getExchangeRate();
-              //getCurrencyName();
+              getExchangeRate();
+              getCurrencyName();
               getCovidData();
               getCountryBorders();
               getWeather()
@@ -300,8 +300,8 @@ $('#selectCountry').change(function(){
           console.log(result);
           if(result.status.code == 200){
             setCountryInfo(result);
-            //getExchangeRate();
-            //getCurrencyName();
+            getExchangeRate();
+            getCurrencyName();
             getCovidData();
             getCountryBorders();
             getWeather()
@@ -339,8 +339,8 @@ function onMapClick(e) {
           console.log(result);
           if (result.status.code == 200) {
             setCountryInfo(result);
-            //getExchangeRate();
-            //getCurrencyName();
+            getExchangeRate();
+            getCurrencyName();
             getCovidData();
             getCountryBorders();
             getWeather()
