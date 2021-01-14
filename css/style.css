@@ -60,7 +60,7 @@ body {
 
 .button-wrapper {
   position: absolute;
-  bottom: 2%;
+  bottom: 1%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 750;
