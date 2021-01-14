@@ -22,14 +22,14 @@ body {
   flex-direction: column-reverse;
 }
 
-.header img {
+.header .logo {
   width: 120px;
 }
 
 .drop-down-wrapper {
   width: 130px;
   margin-top: 7px;
-  border-radius: 15px;
+  border-radius: 12px;
   display: inline-block;
   overflow: hidden;
   background: #cccccc;
@@ -42,6 +42,15 @@ body {
   border: 0px;
   outline: none;
   font-size: 14px;
+}
+
+.flag {
+  width: 40px;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
 }
 
 .map-wrapper {
@@ -76,11 +85,11 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
   border-radius: 20px;
-  width: 80%;
-  height: 70%;
+  width: 90%;
+  height: 80%;
 }
 
 .font-style #close {
@@ -102,7 +111,7 @@ body {
   background-color: rgb(255, 255, 255);
   width: 90%;
   height: 85%;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .info-text {
@@ -125,6 +134,10 @@ body {
   overflow: hidden;
 }
 
+.table th {
+  font-size: 22px;
+}
+
 #covid-graph {
   position: absolute;
   top: 50%;
@@ -132,15 +145,19 @@ body {
   transform: translate(-50%, -50%);
 }
 
-#flag {
-  position: relative;
-  width: 50px;
+#flag2 {
+  width: 40px;
+}
+
+#icon {
+  width: 20px;
 }
 
 #mapid {
   width: 100vw;
   height: 100vh;
 }
+
 /* MEDIA QUERIES */
 
 @media only screen and (min-width: 768px) {
@@ -159,7 +176,7 @@ body {
     z-index: 750;
   }
 
-  .header img {
+  .header .logo {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -174,7 +191,7 @@ body {
     transform: translate(-50%, -50%);
     width: 130px;
     margin-top: 0px;
-    border-radius: 15px;
+    border-radius: 12px;
     display: inline-block;
     overflow: hidden;
     background: #c0c0c0;
@@ -187,6 +204,15 @@ body {
     border: 0px;
     outline: none;
     font-size: 14px;
+  }
+
+  .flag {
+    width: 40px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+    visibility: visible;
   }
 
   .map-wrapper {
@@ -221,7 +247,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(0, 0, 0, 0.2);
     box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1),
       0 5px 15px rgba(0, 0, 0, 0.07);
     border-radius: 20px;
@@ -247,7 +273,7 @@ body {
     transform: translate(-50%, -50%);
     border-radius: 20px;
     background-color: rgb(255, 255, 255);
-    max-width: 60%;
+    max-width: 80%;
     max-height: 100%;
   }
 
@@ -278,8 +304,7 @@ body {
     transform: translate(-50%, -50%);
   }
 
-  #flag {
-    position: relative;
+  #flag2 {
     width: 40px;
   }
 

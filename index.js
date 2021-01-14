@@ -4,6 +4,7 @@ let lng = 0;
 let lat = 0;
 let area = 0;
 let country = "";
+let capital = "";
 let countryCodeIso3 = "";
 let countryCodeIso2 = "";
 let bounds;
@@ -91,6 +92,7 @@ const url =
               //getCurrencyName();
               getCovidData();
               getCountryBorders();
+              getWeather()
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -186,6 +188,7 @@ function setCountryInfo(result) {
   countryCodeIso2 = result["data"][0]["countryCode"];
   currencyCode = result["data"][0]["currencyCode"];
   country = result["data"][0]["countryName"];
+  capital = result["data"][0]["capital"];
 
   // UPDATE HTML COUNTRY INFO
   $("#flag").attr(
@@ -194,12 +197,20 @@ function setCountryInfo(result) {
       countryCodeIso2.toLowerCase() +
       "/shiny/64.png"
   );
+  $("#flag2").attr(
+    "src",
+    "https://www.countryflags.io/" +
+      countryCodeIso2.toLowerCase() +
+      "/shiny/64.png"
+  );
   $("#country").html(" " + country);
   $("#countryCode").html(" " + countryCodeIso3);
   $("#continent").html(" " + result["data"][0]["continentName"]);
-  $("#capital").html(" " + result["data"][0]["capital"]);
+  $("#capital").html(" " + capital);
   $("#population").html(" " + result["data"][0]["population"]);
   $("#languages").html(" " + result["data"][0]["languages"]);
+
+  document.getElementById("selectCountry").value = countryCodeIso2;
 }
 
 function setWikiInfo(result) {
@@ -220,16 +231,58 @@ function setCurrencyInfo() {
 }
 
 function setCovidData(covidObject) {
+  $("#country").html(" " + country);
   $("#newTotalCases").html(" " + covidObject.NewConfirmed);
   $("#totalCases").html(" " + covidObject.TotalConfirmed);
   $("#covidDeathNew").html(" " + covidObject.NewDeaths);
   $("#covidDeathTotal").html(" " + covidObject.TotalDeaths);
   $("#covidDate").html(" " + covidObject.Date);
-  $("#covidSource").html(" JHU Database");
+}
 
-  // COVID DATA GRAPH(OurWorldInData)
-  let iFrameLink = "https://ourworldindata.org/grapher/total-deaths-covid-19?country=" + countryCodeIso3;
-  document.getElementById('covid-graph').src = iFrameLink;
+function setWeather(weatherArr) {
+
+  //Day1
+  $("#w_date").html(weatherArr["weatherData"][0]["valid_date"])
+  let icon = weatherArr["weatherData"][0]["weather"]["icon"];
+  let icon_url= 'https://www.weatherbit.io/static/img/icons/' + icon + '.png';
+  $("#icon").attr("src", icon_url);
+  $("#w_icon").html(icon_url);
+  $("#w_description").html(weatherArr["weatherData"][0]["weather"]["description"]);
+  $("#w_temp").html(weatherArr["weatherData"][0]["temp"] + '°C');
+
+    //Day2
+    $("#w_date1").html(weatherArr["weatherData"][1]["valid_date"])
+    let icon1 = weatherArr["weatherData"][1]["weather"]["icon"];
+    let icon_url1= 'https://www.weatherbit.io/static/img/icons/' + icon1 + '.png';
+    $("#icon1").attr("src", icon_url1);
+    $("#w_description1").html(weatherArr["weatherData"][1]["weather"]["description"]);
+    $("#w_temp1").html(weatherArr["weatherData"][1]["temp"] + '°C');
+
+  //Day3
+  $("#w_date2").html(weatherArr["weatherData"][2]["valid_date"])
+  let icon2 = weatherArr["weatherData"][2]["weather"]["icon"];
+  let icon_url2= 'https://www.weatherbit.io/static/img/icons/' + icon2 + '.png';
+  $("#icon2").attr("src", icon_url2);
+  $("#w_description2").html(weatherArr["weatherData"][2]["weather"]["description"]);
+  $("#w_temp2").html(weatherArr["weatherData"][2]["temp"] + '°C');
+
+    //Day4
+    $("#w_date3").html(weatherArr["weatherData"][3]["valid_date"])
+    let icon3 = weatherArr["weatherData"][3]["weather"]["icon"];
+    let icon_url3= 'https://www.weatherbit.io/static/img/icons/' + icon3 + '.png';
+    $("#icon3").attr("src", icon_url3);
+    $("#w_description3").html(weatherArr["weatherData"][3]["weather"]["description"]);
+    $("#w_temp3").html(weatherArr["weatherData"][3]["temp"] + '°C');
+
+  //Day5
+  $("#w_date4").html(weatherArr["weatherData"][4]["valid_date"])
+  let icon4 = weatherArr["weatherData"][4]["weather"]["icon"];
+  let icon_url4= 'https://www.weatherbit.io/static/img/icons/' + icon4 + '.png';
+  $("#icon4").attr("src", icon_url4);
+  $("#w_description4").html(weatherArr["weatherData"][4]["weather"]["description"]);
+  $("#w_temp4").html(weatherArr["weatherData"][4]["temp"] + '°C');
+
+  $("#capital2").html(" " + capital);
 }
 
 // SELECT COUNTRY FROM DROP-DOWN MENU
@@ -251,6 +304,7 @@ $('#selectCountry').change(function(){
             //getCurrencyName();
             getCovidData();
             getCountryBorders();
+            getWeather()
           }
       },
       error: function(jqXHR, textStatus, errorThrown){
@@ -289,6 +343,7 @@ function onMapClick(e) {
             //getCurrencyName();
             getCovidData();
             getCountryBorders();
+            getWeather()
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -337,7 +392,7 @@ function getCountryBorders() {
 
 // GET WIKIPEDIA DATA
 
-function getWiki(e) {
+/*function getWiki(e) {
   $.ajax({
     url: "php/getWiki.php",
     type: "POST",
@@ -354,9 +409,9 @@ function getWiki(e) {
       alert(`${textStatus} error in getWiki`);
     },
   });
-}
+} 
 
-mymap.on("click", getWiki);
+mymap.on("click", getWiki); */
 
 // GET EXCHANGE RATE DATA
 
@@ -425,108 +480,27 @@ function getCovidData() {
   });
 }
 
-// GET WEATHER DATA ONCLICK & POP-UP - ALTERNATIVE API METHOD
-/*
-let popup = L.popup();
+// GET WEATHER FORECAST
 
-//popup function
-function onMapClickWeather(e) {
-  mymap.fitBounds(e.target.getBounds());
-
-  popup.setLatLng(e.latlng).openOn(mymap);
-
-  //getting json function
-  $(document).ready(function () {
-    $.ajax({
-      url:
-        "https://api.openweathermap.org/data/2.5/weather?lat=" +
-        e.latlng.lat +
-        "&lon=" +
-        e.latlng.lng +
-        "&appid=36e6a7c2681f29437c9062534508e485",
-      dataType: "json",
-      success: function (data) {
-        // storing json data in variables
-        weatherstationname = data.name; // Name of Weatherstation
-        weathertime = data.dt; // Time of weatherdata (UTC)
-        temperature = data.main.temp; // Kelvin
-        temperature_min = data.main.temp_min; // Kelvin
-        temperature_max = data.main.temp_max; // Kelvin
-        windspeed = data.wind.speed; // Meter per second
-        cloudcoverage = data.clouds.all; // Cloudcoverage in %
-        weatherconditionstring = data.weather[0].main; // Weatheartype
-        weatherconditiondescription = data.weather[0].description; // Weatherdescription
-        weatherconditionicon = data.weather[0].icon; // ID of weathericon
-
-        // Converting Unix UTC Time
-        let utctimecalc = new Date(weathertime * 1000);
-        let months = [
-          "01",
-          "02",
-          "03",
-          "04",
-          "05",
-          "06",
-          "07",
-          "08",
-          "09",
-          "10",
-          "11",
-          "12",
-        ];
-        let year = utctimecalc.getFullYear();
-        let month = months[utctimecalc.getMonth()];
-        let date = utctimecalc.getDate();
-        let hour = utctimecalc.getHours();
-        let min = utctimecalc.getMinutes();
-        let sec = utctimecalc.getSeconds();
-        let time =
-          date + "." + month + "." + year + " " + hour + ":" + min + " Uhr";
-
-        // recalculating
-        var weathercondtioniconhtml =
-          "http://openweathermap.org/img/w/" + weatherconditionicon + ".png";
-        let weathertimenormal = time; // reallocate time var....
-        let temperaturecelsius = Math.round((temperature - 273) * 100) / 100; // Converting Kelvin to Celsius
-        let windspeedknots = Math.round(windspeed * 1.94 * 100) / 100; // Windspeed from m/s in Knots; Round to 2 decimals
-        let windspeedkmh = Math.round(windspeed * 3.6 * 100) / 100; // Windspeed from m/s in km/h; Round to 2 decimals
-
-
-        //Popup with content
-        const fontsizesmall = 1;
-        popup.setContent(
-            "<img src=" +
-            weathercondtioniconhtml +
-            "><br>" +
-            weatherconditionstring +
-            ": " +
-            weatherconditiondescription +
-            "<br>Temperature: " +
-            temperaturecelsius +
-            "<br>Cloudcoverage: " +
-            cloudcoverage +
-            "%<br>Windspeed: " +
-            windspeedkmh +
-            "<br><br><font size=" +
-            fontsizesmall +
-            "Source: openweathermap.org<br>Measure time: " +
-            weathertimenormal +
-            "<br>Weatherstation: " +
-            weatherstationname
-        );
-      },
-      error: function () {
-        alert("error receiving wind data from openweathermap");
-      },
-    });
+function getWeather() {
+  $.ajax({
+    url: "php/getWeather.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      city: capital,
+      country: countryCodeIso2,
+    },
+    success: function (weatherArr) {
+      console.log(weatherArr);
+      setWeather(weatherArr);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(`Error in getWeather: ${textStatus} ${errorThrown} ${jqXHR}`);
+    },
   });
-  //getting json function ends here
-
-  //popupfunction ends here
 }
 
-//popup
-mymap.on("click", onMapClickWeather); */
 
 // BUTTONS
 

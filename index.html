@@ -281,12 +281,16 @@
             <option value="ZW">Zimbabwe</option>
           </select>
         </div>
-        <img src="media/svg/gazetteer-logo.svg" />
-      </div>
+        <img class="logo" src="media/svg/gazetteer-logo.svg" />
+        <img id="flag" class="flag" src="" />
+      </div
       <div class="map-wrapper">
         <div class="button-wrapper">
           <div id="location" onclick="showLocation()">
             <img src="media/svg/location.svg">
+          </div>
+          <div id="wiki" onclick="showWiki()">
+            <img src="media/svg/weather.svg">
           </div>
           <div id="currency" onclick="showCurrency()">
             <img src="media/svg/currency.svg">
@@ -296,9 +300,6 @@
           </div>
           <div id="graph" onclick="showGraph()">
             <img src="media/svg/graph.svg">
-          </div>
-          <div id="wiki" onclick="showWiki()">
-            <img src="media/svg/weather.svg">
           </div>
         </div>
           <div id="mapid"></div>
@@ -315,7 +316,7 @@
               </tr>
               <tr>
                 <td>Flag</td>
-                <td><img id="flag" src="" /></td> 
+                <td><img id="flag2" src="" /></td> 
               </tr>
               <tr>
                 <td>Country</td>
@@ -383,31 +384,88 @@
         <img id="close" src="media/svg/close.svg" onclick="closeInfo3()"/>
         <div class="span">
             <div class="info-text">
-            <h4>Covid-19 Data</h4></br>
-            <p>New Confirmed Cases:<span id="newTotalCases"></span></p>
-            <p>Total Confirmed Cases:<span id="totalCases"></span></p>
-            <p>New Deaths:<span id="covidDeathNew"></span></p>
-            <p>Total Deaths:<span id="covidDeathTotal"></span></p>
-            <p>Date:<span id="covidDate"></span></p>
+              <table class="table table-hover table-dark">
+                <tr>
+                  <th colspan="2">Covid-19 Data</th> 
+                </tr>
+                <tr>
+                  <td>New Confirmed Cases</td>
+                  <td><span id="newTotalCases"></span></td> 
+                </tr>
+                <tr>
+                  <td>Total Confirmed</td>
+                  <td><span id="totalCases"></span></td> 
+                </tr>
+                <tr>
+                  <td>New Deaths</td>
+                  <td><span id="covidDeathNew"></span></td> 
+                </tr>
+                <tr>
+                  <td>Total Deaths</td>
+                  <td><span id="covidDeathTotal"></span></td> 
+                </tr>
+                <tr>
+                  <td>Date</td>
+                  <td><span id="covidDate"></span></td> 
+                </tr>
+                <tr>
+                  <td>Source</td>
+                  <td><span>Johns Hopkins University</span></td> 
+                </tr>
+              </table>
           </div>
         </div>
       </div>
 
       <div id="info4" class="font-style" style="visibility: hidden;">
         <img id="close" src="media/svg/close.svg" onclick="closeInfo4()"/>
-          <iframe id="covid-graph" src="https://ourworldindata.org/grapher/total-deaths-covid-19?country=ITA" style="height: 90%; width: 90%; border: 0px none;"></iframe>
       </div>
 
       <div id="info5" class="font-style" style="visibility: hidden;">
         <img id="close" src="media/svg/close.svg" onclick="closeInfo5()"/>
         <div class="span"> 
           <div class="info-text">
-            <h4>Title:<span id="wikiTitle"></span></h4></br>
-            <p>Summary:<span id="wikiSummary"></span></p>
-            <p>Feature:<span id="wikiFeature"></span></p>
-            <p>Distance(km):<span id="wikiDistance"></span></p>
-            <h1>url:<span id="wikiUrl"></span></h1>
-            <h1>Wikipedia Article (within 20km of map click)</h1>
+            <table class="table table-hover table-dark">
+              <tr>
+                <th class="text-center" colspan="4"><span id="capital2"></span></th>
+              </tr>
+              <tr>
+                <td>Date</td>
+                <td>Icon</td>
+                <td>description</td>
+                <td>Temp</td>
+              </tr>
+              <tr>
+                <td><span id="w_date"></span></td>
+                <td><img id="icon" src="" style="width:30px;" /></td>
+                <td><span id="w_description"></span></td> 
+                <td><span id="w_temp"></span></td> 
+              </tr>
+              <tr>
+                <td><span id="w_date1"></span></td>
+                <td><img id="icon1" src="" style="width:30px;" /></td>
+                <td><span id="w_description1"></span></td> 
+                <td><span id="w_temp1"></span></td> 
+              </tr>
+              <tr>
+                <td><span id="w_date2"></span></td>
+                <td><img id="icon2" src="" style="width:30px;" /></td>
+                <td><span id="w_description2"></span></td> 
+                <td><span id="w_temp2"></span></td>  
+              </tr>
+              <tr>
+                <td><span id="w_date3"></span></td>
+                <td><img id="icon3" src="" style="width:30px;" /></td>
+                <td><span id="w_description3"></span></td> 
+                <td><span id="w_temp3"></span></td> 
+              </tr>
+              <tr>
+                <td><span id="w_date4"></span></td>
+                <td><img id="icon4" src="" style="width:30px;" /></td>
+                <td><span id="w_description4"></span></td> 
+                <td><span id="w_temp4"></span></td>
+              </tr>
+            </table>
           </div> 
         </div>
       </div>
