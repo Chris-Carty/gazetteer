@@ -10,10 +10,10 @@ body {
   top: 3%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60%;
-  height: 90px;
+  width: 50%;
+  height: 80px;
   background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 40px;
+  border-radius: 20px;
   align-items: center;
   margin-top: 30px;
   z-index: 750;
@@ -27,26 +27,21 @@ body {
 }
 
 .drop-down-wrapper {
-  width: 140px;
+  width: 130px;
   margin-top: 7px;
+  border-radius: 15px;
+  display: inline-block;
+  overflow: hidden;
+  background: #cccccc;
+  border: 1px solid #cccccc;
 }
 
-.date {
-  visibility: hidden;
-  position: absolute;
-  top: 50%;
-  right: 0px;
-  transform: translate(-50%, -50%);
-  white-space: nowrap;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: black;
-}
-
-#ct {
-  visibility: hidden;
-  color: black;
+#selectCountry {
+  width: 130px;
+  height: 30px;
+  border: 0px;
+  outline: none;
+  font-size: 14px;
 }
 
 .map-wrapper {
@@ -85,7 +80,7 @@ body {
   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
   border-radius: 20px;
   width: 80%;
-  height: 65%;
+  height: 70%;
 }
 
 .font-style #close {
@@ -106,7 +101,7 @@ body {
   border-radius: 20px;
   background-color: rgb(255, 255, 255);
   width: 90%;
-  height: 80%;
+  height: 85%;
   overflow: hidden;
 }
 
@@ -123,24 +118,11 @@ body {
   font-weight: 600;
 }
 
-.font-style h4,
-.font-style p,
-.font-style h1 {
-  margin: 4px 25px;
-}
-
-.font-style h4 {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.font-style p {
-  font-size: 14px;
-}
-
-.font-style h1 {
-  color: rgb(138, 138, 138);
-  font-size: 12px;
+.table {
+  height: 100%;
+  border-collapse: collapse;
+  border-radius: 1em;
+  overflow: hidden;
 }
 
 #covid-graph {
@@ -152,8 +134,7 @@ body {
 
 #flag {
   position: relative;
-  width: 60px;
-  margin-left: 25px;
+  width: 50px;
 }
 
 #mapid {
@@ -169,10 +150,10 @@ body {
     top: 2%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%;
+    width: 38%;
     height: 60px;
     background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 50px;
+    border-radius: 20px;
     align-items: center;
     margin-top: 25px;
     z-index: 750;
@@ -189,28 +170,23 @@ body {
   .drop-down-wrapper {
     position: absolute;
     top: 50%;
-    left: 100px;
+    left: 80px;
     transform: translate(-50%, -50%);
-    width: 135px;
+    width: 130px;
     margin-top: 0px;
+    border-radius: 15px;
+    display: inline-block;
+    overflow: hidden;
+    background: #c0c0c0;
+    border: 1px solid #cccccc;
   }
 
-  .date {
-    visibility: visible;
-    position: absolute;
-    top: 50%;
-    right: 0px;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: black;
-  }
-
-  #ct {
-    visibility: visible;
-    color: black;
+  #selectCountry {
+    width: 130px;
+    height: 30px;
+    border: 0px;
+    outline: none;
+    font-size: 14px;
   }
 
   .map-wrapper {
@@ -249,8 +225,8 @@ body {
     box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1),
       0 5px 15px rgba(0, 0, 0, 0.07);
     border-radius: 20px;
-    width: 50%;
-    height: 50%;
+    width: 38%;
+    height: 60%;
     pointer-events: none;
   }
 
@@ -271,7 +247,7 @@ body {
     transform: translate(-50%, -50%);
     border-radius: 20px;
     background-color: rgb(255, 255, 255);
-    max-width: 80%;
+    max-width: 60%;
     max-height: 100%;
   }
 
@@ -288,18 +264,11 @@ body {
     font-weight: 600;
   }
 
-  .font-style h4,
-  .font-style p {
-    margin: 2.5px 25px;
-  }
-
-  .font-style h4 {
-    font-size: 22px;
-    font-weight: 600;
-  }
-
-  .font-style p {
-    font-size: 14px;
+  .table {
+    height: 100%;
+    border-collapse: collapse;
+    border-radius: 1em;
+    overflow: hidden;
   }
 
   #covid-graph {
@@ -311,8 +280,7 @@ body {
 
   #flag {
     position: relative;
-    width: 60px;
-    margin-left: 25px;
+    width: 40px;
   }
 
   #mapid {

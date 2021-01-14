@@ -1,19 +1,3 @@
-// DATETIME
-
-function display_c() {
-  const refresh = 1000; // Refresh rate in milli seconds
-  mytime = setTimeout("display_ct()", refresh);
-}
-
-function display_ct() {
-  const x = new Date();
-  let x1 = x.getHours() + ":" + x.getMinutes();
-  document.getElementById("ct").innerHTML = x1;
-  display_c();
-}
-
-///////////////////////////
-
 // GLOBAL VARIABLES //
 
 let lng = 0;
@@ -76,7 +60,6 @@ const url =
     let radius = e.accuracy;
 
     L.marker(e.latlng).addTo(mymap)
-        .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
     L.circle(e.latlng, radius).addTo(mymap); 
 
@@ -104,8 +87,8 @@ const url =
             console.log(result);
             if (result.status.code == 200) {
               setCountryInfo(result);
-              getExchangeRate();
-              getCurrencyName();
+              //getExchangeRate();
+              //getCurrencyName();
               getCovidData();
               getCountryBorders();
             }
@@ -264,8 +247,8 @@ $('#selectCountry').change(function(){
           console.log(result);
           if(result.status.code == 200){
             setCountryInfo(result);
-            getExchangeRate();
-            getCurrencyName();
+            //getExchangeRate();
+            //getCurrencyName();
             getCovidData();
             getCountryBorders();
           }
@@ -302,8 +285,8 @@ function onMapClick(e) {
           console.log(result);
           if (result.status.code == 200) {
             setCountryInfo(result);
-            getExchangeRate();
-            getCurrencyName();
+            //getExchangeRate();
+            //getCurrencyName();
             getCovidData();
             getCountryBorders();
           }
@@ -443,7 +426,7 @@ function getCovidData() {
 }
 
 // GET WEATHER DATA ONCLICK & POP-UP - ALTERNATIVE API METHOD
-
+/*
 let popup = L.popup();
 
 //popup function
@@ -543,7 +526,7 @@ function onMapClickWeather(e) {
 }
 
 //popup
-mymap.on("click", onMapClickWeather);
+mymap.on("click", onMapClickWeather); */
 
 // BUTTONS
 
