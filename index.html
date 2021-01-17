@@ -295,6 +295,9 @@
           <div id="currency" onclick="showCurrency()">
             <img src="media/svg/currency.svg">
           </div>
+          <div id="images" onclick="showImages()">
+            <img src="media/svg/images.svg">
+          </div>
           <div id="covid" onclick="showCovid()">
             <img src="media/svg/covid.svg">
           </div>
@@ -352,12 +355,12 @@
                 <th colspan="2">Currency Data</th> 
               </tr>
               <tr>
-                <td>Country</td>
-                <td><span id="country"></span></td> 
-              </tr>
-              <tr>
                 <td>Currency</td>
                 <td><span id="currencyName"></span></td> 
+              </tr>
+              <tr>
+                <td>Code</td>
+                <td><span id="currencyCode"></span></td> 
               </tr>
               <tr>
                 <td>Exchange Rate</td>
@@ -410,9 +413,25 @@
                 </tr>
                 <tr>
                   <td>Source</td>
-                  <td><span>Johns Hopkins University</span></td> 
+                  <td><span>Johns Hopkins</span></td> 
                 </tr>
               </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="info6" class="font-style" style="visibility: hidden;">
+        <img id="close" src="media/svg/close.svg" onclick="closeInfo6()"/>
+        <div class="image-wrapper">
+          <div class="image-container">
+            <div id="image0"></div>
+            <div id="image1"></div>
+            <div id="image2"></div>
+          </div>
+          <div class="image-container">
+            <div id="image3"></div>
+            <div id="image4"></div>
+            <div id="image5"></div>
           </div>
         </div>
       </div>
@@ -489,11 +508,6 @@
     <script src="vendors/leaflet-plugins/L.timezones.js"></script>
     <script src="vendors/leaflet-plugins/leaflet-google.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMrTOrwEWfVnyFkh5TznYljWLPLMhyWpY"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"
-      integrity="sha512-Abr21JO2YqcJ03XGZRPuZSWKBhJpUAR6+2wH5zBeO4wAw4oksr8PRdF+BKIRsxvCdq+Mv4670rZ+dLnIyabbGw=="
-      crossorigin="anonymous"
-    ></script>
     <script type="application/javascript" src="index.js"></script>
   </body>
 </html> 

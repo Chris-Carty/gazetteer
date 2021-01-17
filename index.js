@@ -5,12 +5,18 @@ let lat = 0;
 let area = 0;
 let country = "";
 let capital = "";
+let north = "";
+let south = "";
+let east = "";
+let west = "";
 let countryCodeIso3 = "";
 let countryCodeIso2 = "";
 let bounds;
 let geoJsonBorder;
 let userLng = 0;
 let userLat = 0;
+let cityLat = 0;
+let cityLng = 0;
 
 // Vars Exchange Rate
 let currencyCode = "";
@@ -54,15 +60,9 @@ const url =
 
 // GEOLOCATION
 
-  mymap.locate({setView: true, maxZoom: 5.5});
+  mymap.locate({setView: false});
 
   function onLocationFound(e) {
-
-    let radius = e.accuracy;
-
-    L.marker(e.latlng).addTo(mymap)
-
-    L.circle(e.latlng, radius).addTo(mymap); 
 
     // GET USER COUNTRY INFO 
 
@@ -88,11 +88,12 @@ const url =
             console.log(result);
             if (result.status.code == 200) {
               setCountryInfo(result);
-              getExchangeRate();
-              getCurrencyName();
+              //getExchangeRate();
+              //getCurrencyName();
               getCovidData();
               getCountryBorders();
-              getWeather()
+              getWeather();
+              getImages();
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -189,6 +190,11 @@ function setCountryInfo(result) {
   currencyCode = result["data"][0]["currencyCode"];
   country = result["data"][0]["countryName"];
   capital = result["data"][0]["capital"];
+  north = result["data"][0]["north"];
+  south = result["data"][0]["south"];
+  east = result["data"][0]["east"];
+  west = result["data"][0]["west"];
+
 
   // UPDATE HTML COUNTRY INFO
   $("#flag").attr(
@@ -213,14 +219,6 @@ function setCountryInfo(result) {
   document.getElementById("selectCountry").value = countryCodeIso2;
 }
 
-function setWikiInfo(result) {
-  $("#wikiTitle").html(" " + result["wikiData"][0]["title"]);
-  $("#wikiSummary").html(" " + result["wikiData"][0]["summary"]);
-  $("#wikiFeature").html(" " + result["wikiData"][0]["feature"]);
-  $("#wikiDistance").html(" " + result["wikiData"][0]["distance"]);
-  $("#wikiUrl").html(" " + result["wikiData"][0]["wikipediaUrl"]);
-}
-
 function setCurrencyInfo() {
   $("#currencyName").html(" " + currencyName);
   $("#currencyCode").html(" " + currencyCode);
@@ -237,6 +235,30 @@ function setCovidData(covidObject) {
   $("#covidDeathNew").html(" " + covidObject.NewDeaths);
   $("#covidDeathTotal").html(" " + covidObject.TotalDeaths);
   $("#covidDate").html(" " + covidObject.Date);
+}
+
+function setImages(result) {
+
+  let url0 = result['hits'][0]['largeImageURL'].toString();
+  let url1 = result['hits'][1]['largeImageURL'].toString();
+  let url2 = result['hits'][2]['largeImageURL'].toString();
+  let url3 = result['hits'][3]['largeImageURL'].toString();
+  let url4 = result['hits'][4]['largeImageURL'].toString();
+  let url5 = result['hits'][5]['largeImageURL'].toString();
+
+
+  document.getElementById("image0").style.backgroundImage = 'url(' + url0 + ')';
+  document.getElementById("image1").style.backgroundImage = 'url(' + url1 + ')';
+  document.getElementById("image2").style.backgroundImage = 'url(' + url2 + ')';
+  document.getElementById("image3").style.backgroundImage = 'url(' + url3 + ')';
+  document.getElementById("image4").style.backgroundImage = 'url(' + url4 + ')';
+  document.getElementById("image5").style.backgroundImage = 'url(' + url5 + ')';
+
+  //$("#image0").attr("src", result['hits'][0]['largeImageURL'])
+  //$("#image1").attr("src", result['hits'][1]['largeImageURL'])
+  //$("#image2").attr("src", result['hits'][2]['largeImageURL']);
+  //$("#image1").attr("src", icon_url);
+  //$("#image2").attr("src", icon_url);
 }
 
 function setWeather(weatherArr) {
@@ -285,6 +307,57 @@ function setWeather(weatherArr) {
   $("#capital2").html(" " + capital);
 }
 
+function setEarthquakes(result) {
+
+const e_icon = L.icon({
+  iconUrl: 'media/svg/earthquake.svg',
+  iconSize: [30, 30],
+  iconAnchor: [15, 30],
+  popupAnchor: [0, -25]
+})
+
+let e_marker0 = L.marker([result["earthquakeData"][0]["lat"], result["earthquakeData"][0]["lng"]], {icon: e_icon}).addTo(mymap);
+let e_marker1 = L.marker([result["earthquakeData"][1]["lat"], result["earthquakeData"][1]["lng"]], {icon: e_icon}).addTo(mymap);
+let e_marker2 = L.marker([result["earthquakeData"][2]["lat"], result["earthquakeData"][2]["lng"]], {icon: e_icon}).addTo(mymap);
+let e_marker3 = L.marker([result["earthquakeData"][3]["lat"], result["earthquakeData"][3]["lng"]], {icon: e_icon}).addTo(mymap);
+
+$("#e_mag").html(result["earthquakeData"][0]["magnitude"]);
+//$("#e_depth").html(result["earthquakeData"][0]["depth"]);
+//$("#e_date").html(result["earthquakeData"][0]["datetime"]);
+
+e_marker0.on('click', function(e){
+  this.bindPopup("<div id='e_title'>Earthquake<div><br><div id='e_mag'><div><br><div id='e_depth'><div><br><div id='e_date'><div>");
+})
+
+};
+
+function setWikiInfo(result) {
+  const w_icon = L.icon({
+    iconUrl: 'media/svg/wiki.svg',
+    iconSize: [30, 30],
+    iconAnchor: [15, 30],
+    popupAnchor: [0, -25]
+  })
+  
+  let w_marker0 = L.marker([result["wikiData"][0]["lat"], result["wikiData"][0]["lng"]], {icon: w_icon}).addTo(mymap);
+  let w_marker1 = L.marker([result["wikiData"][1]["lat"], result["wikiData"][1]["lng"]], {icon: w_icon}).addTo(mymap);
+  let w_marker2 = L.marker([result["wikiData"][2]["lat"], result["wikiData"][2]["lng"]], {icon: w_icon}).addTo(mymap);
+  let w_marker3 = L.marker([result["wikiData"][3]["lat"], result["wikiData"][3]["lng"]], {icon: w_icon}).addTo(mymap);
+}
+
+function setPointsOfInterest(result) {
+  const p_icon = L.icon({
+    iconUrl: 'media/svg/poi.svg',
+    iconSize: [30, 30],
+    iconAnchor: [15, 30],
+    popupAnchor: [0, -25]
+  })
+  
+  let p_marker0 = L.marker([result["poiData"][0]["lat"], result["poiData"][0]["lng"]], {icon: p_icon}).addTo(mymap);
+  let p_marker1 = L.marker([result["poiData"][1]["lat"], result["poiData"][1]["lng"]], {icon: p_icon}).addTo(mymap);
+  let p_marker2 = L.marker([result["poiData"][2]["lat"], result["poiData"][2]["lng"]], {icon: p_icon}).addTo(mymap);
+}
+
 // SELECT COUNTRY FROM DROP-DOWN MENU
 
 $('#selectCountry').change(function(){
@@ -300,11 +373,12 @@ $('#selectCountry').change(function(){
           console.log(result);
           if(result.status.code == 200){
             setCountryInfo(result);
-            getExchangeRate();
-            getCurrencyName();
+            //getExchangeRate();
+            //getCurrencyName();
             getCovidData();
             getCountryBorders();
             getWeather()
+            getImages();
           }
       },
       error: function(jqXHR, textStatus, errorThrown){
@@ -317,6 +391,7 @@ $('#selectCountry').change(function(){
 // HANDLES MAP CLICK EVENT
 
 function onMapClick(e) {
+  
   $.ajax({
     url: "php/getCountryCode.php",
     type: "POST",
@@ -326,6 +401,7 @@ function onMapClick(e) {
       lng: e["latlng"]["lng"],
     },
     success: function (result) {
+      
       console.log(result);
       $.ajax({
         url: "php/getCountryInfo.php",
@@ -336,14 +412,16 @@ function onMapClick(e) {
           lang: "en",
         },
         success: function (result) {
+          
           console.log(result);
           if (result.status.code == 200) {
             setCountryInfo(result);
-            getExchangeRate();
-            getCurrencyName();
+            //getExchangeRate();
+            //getCurrencyName();
             getCovidData();
             getCountryBorders();
             getWeather()
+            getImages();
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -381,8 +459,11 @@ function getCountryBorders() {
         animate: true,
         duration: 2.5,
         maxZoom: 5.5,
-      });
-      
+      })
+
+      getEarthquakes();
+      getWiki();
+      getCityInfo();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(`Error in CountryBorders: ${textStatus} ${errorThrown} ${jqXHR}`);
@@ -392,14 +473,16 @@ function getCountryBorders() {
 
 // GET WIKIPEDIA DATA
 
-/*function getWiki(e) {
+function getWiki() {
   $.ajax({
     url: "php/getWiki.php",
     type: "POST",
     dataType: "json",
     data: {
-      lat: e["latlng"]["lat"],
-      lng: e["latlng"]["lng"],
+      north: north,
+      south: south,
+      east: east,
+      west: west
     },
     success: function (result) {
       console.log(result);
@@ -410,8 +493,6 @@ function getCountryBorders() {
     },
   });
 } 
-
-mymap.on("click", getWiki); */
 
 // GET EXCHANGE RATE DATA
 
@@ -496,11 +577,93 @@ function getWeather() {
       setWeather(weatherArr);
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      alert(`Error in getWeather: ${textStatus} ${errorThrown} ${jqXHR}`);
+      console.log(`Error in getWeather: ${textStatus} ${errorThrown} ${jqXHR}`);
+      alert('Weather data unavailable!');
     },
   });
 }
 
+// GET EARTHQUAKES
+
+function getEarthquakes() {
+  $.ajax({
+    url: "php/getEarthquakes.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      north: north,
+      south: south,
+      east: east,
+      west: west
+    },
+    success: function (result) {
+      console.log(result);
+      setEarthquakes(result);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log(`Error in getEarthquakes: ${textStatus} ${errorThrown} ${jqXHR}`);
+      alert('Earthquake data unavailable!')
+    },
+  });
+}
+
+function getCityInfo() {
+  $.ajax({
+    url: "php/getCityInfo.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      city: capital,
+      ISO_A2: countryCodeIso2
+    },
+    success: function (result) {
+      console.log(result);
+      cityLat = result["cityData"][0]["geometry"]["lat"];
+      cityLng = result["cityData"][0]["geometry"]["lng"];
+      getPointsOfInterest();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log(`${textStatus} error in getCityInfo`);
+    },
+  });
+} 
+
+function getPointsOfInterest() {
+  $.ajax({
+    url: "php/getPointsofInt.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      lat: cityLat,
+      lng: cityLng
+    },
+    success: function (result) {
+      console.log(result);
+      setPointsOfInterest(result);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(`Error in getPOIs: ${textStatus} ${errorThrown} ${jqXHR}`);
+    },
+  });
+}
+
+function getImages() {
+  $.ajax({
+    url: "php/getImages.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      country: country
+    },
+    success: function (result) {
+      console.log(result);
+      setImages(result);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(`Error in getImages: ${textStatus} ${errorThrown} ${jqXHR}`);
+    },
+  });
+}
 
 // BUTTONS
 
@@ -553,6 +716,17 @@ function showWiki() {
 function closeInfo5() {
   showWiki()
 }
+
+function showImages() {
+  var info = document.getElementById('info6')
+  var visibility = info.style.visibility;
+  info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+}
+
+function closeInfo6() {
+  showImages()
+}
+
 
 
 

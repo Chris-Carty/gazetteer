@@ -158,8 +158,38 @@ body {
   height: 100vh;
 }
 
-.hide {
-  visibility: hidden;
+.image-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  height: 85%;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  justify-content: space-between;
+}
+
+#image0,
+#image1,
+#image2,
+#image3,
+#image4,
+#image5 {
+  border-radius: 20px;
+  width: 150px !important;
+  height: 90%;
+  margin: 5px;
+  background-repeat: no-repeat;
+  background-size: 120%;
 }
 
 /* MEDIA QUERIES */
@@ -315,9 +345,5 @@ body {
   #mapid {
     width: 100vw;
     height: 100vh;
-  }
-
-  .hide {
-    visibility: visible;
   }
 }
