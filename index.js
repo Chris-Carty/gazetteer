@@ -17,6 +17,8 @@ let userLng = 0;
 let userLat = 0;
 let cityLat = 0;
 let cityLng = 0;
+let e_markerGroup;
+let w_markerGroup;
 
 // Vars Exchange Rate
 
@@ -60,11 +62,8 @@ const url =
 
 ///////////////////////////
 
-// GEOLOCATION
 
-  mymap.locate({setView: false});
-
-  function onLocationFound(e) {
+  /*function onLocationFound(e) {
 
     // GET USER COUNTRY INFO 
 
@@ -90,8 +89,8 @@ const url =
             console.log(result);
             if (result.status.code == 200) {
               setCountryInfo(result);
-              getExchangeRate();
-              getCurrencyName();
+              //getExchangeRate();
+              //getCurrencyName();
               getCovidData();
               getCountryBorders();
               getWeather();
@@ -115,9 +114,10 @@ const url =
     alert(e.message);
 }
 
-  mymap.on("locationerror", onLocationError);
+  mymap.on("locationerror", onLocationError); 
+  */
 
-  ///////////////////////////
+  /////////////////////////// 
 
 
   // GOOGLE MAPS API LAYERS
@@ -249,19 +249,12 @@ function setImages(result) {
   let url4 = result['hits'][4]['largeImageURL'].toString();
   let url5 = result['hits'][5]['largeImageURL'].toString();
 
-
   document.getElementById("image0").style.backgroundImage = 'url(' + url0 + ')';
   document.getElementById("image1").style.backgroundImage = 'url(' + url1 + ')';
   document.getElementById("image2").style.backgroundImage = 'url(' + url2 + ')';
   document.getElementById("image3").style.backgroundImage = 'url(' + url3 + ')';
   document.getElementById("image4").style.backgroundImage = 'url(' + url4 + ')';
   document.getElementById("image5").style.backgroundImage = 'url(' + url5 + ')';
-
-  //$("#image0").attr("src", result['hits'][0]['largeImageURL'])
-  //$("#image1").attr("src", result['hits'][1]['largeImageURL'])
-  //$("#image2").attr("src", result['hits'][2]['largeImageURL']);
-  //$("#image1").attr("src", icon_url);
-  //$("#image2").attr("src", icon_url);
 }
 
 function setWeather(weatherArr) {
@@ -319,17 +312,44 @@ const e_icon = L.icon({
   popupAnchor: [0, -25]
 })
 
-let e_marker0 = L.marker([result["earthquakeData"][0]["lat"], result["earthquakeData"][0]["lng"]], {icon: e_icon}).addTo(mymap);
-let e_marker1 = L.marker([result["earthquakeData"][1]["lat"], result["earthquakeData"][1]["lng"]], {icon: e_icon}).addTo(mymap);
-let e_marker2 = L.marker([result["earthquakeData"][2]["lat"], result["earthquakeData"][2]["lng"]], {icon: e_icon}).addTo(mymap);
-let e_marker3 = L.marker([result["earthquakeData"][3]["lat"], result["earthquakeData"][3]["lng"]], {icon: e_icon}).addTo(mymap);
+if(e_markerGroup != undefined){
+  mymap.removeLayer(e_markerGroup);
+}
 
-$("#e_mag").html(result["earthquakeData"][0]["magnitude"]);
-//$("#e_depth").html(result["earthquakeData"][0]["depth"]);
-//$("#e_date").html(result["earthquakeData"][0]["datetime"]);
+  e_markerGroup = L.layerGroup().addTo(mymap);
 
-e_marker0.on('click', function(e){
-  this.bindPopup("<div id='e_title'>Earthquake<div><br><div id='e_mag'><div><br><div id='e_depth'><div><br><div id='e_date'><div>");
+let e_marker0 = L.marker([result["earthquakeData"][0]["lat"], result["earthquakeData"][0]["lng"]], {icon: e_icon}).addTo(e_markerGroup);
+let e_marker1 = L.marker([result["earthquakeData"][1]["lat"], result["earthquakeData"][1]["lng"]], {icon: e_icon}).addTo(e_markerGroup);
+let e_marker2 = L.marker([result["earthquakeData"][2]["lat"], result["earthquakeData"][2]["lng"]], {icon: e_icon}).addTo(e_markerGroup);
+
+e_marker0.on('click', function(){
+  this.bindPopup();
+  this._popup.setContent(
+    "<h6>Earthquake</h6>" + 
+    "Magnitude: " + result["earthquakeData"][0]["magnitude"] + " ML<br>" +
+    "Depth: " + result["earthquakeData"][0]["depth"] + " KM<br>" +
+    "Datetime: " + result["earthquakeData"][0]["datetime"]
+    );
+})
+
+e_marker1.on('click', function(){
+  this.bindPopup();
+  this._popup.setContent(
+    "<h6>Earthquake</h6>" + 
+    "Magnitude: " + result["earthquakeData"][1]["magnitude"] + " ML<br>" +
+    "Depth: " + result["earthquakeData"][1]["depth"] + " KM<br>" +
+    "Datetime: " + result["earthquakeData"][1]["datetime"]
+    );
+})
+
+e_marker2.on('click', function(){
+  this.bindPopup();
+  this._popup.setContent(
+    "<h6>Earthquake</h6>" + 
+    "Magnitude: " + result["earthquakeData"][2]["magnitude"] + " ML <br>" +
+    "Depth: " + result["earthquakeData"][2]["depth"] + " KM<br>" +
+    "Datetime: " + result["earthquakeData"][2]["datetime"]
+    );
 })
 
 };
@@ -341,14 +361,67 @@ function setWikiInfo(result) {
     iconAnchor: [15, 30],
     popupAnchor: [0, -25]
   })
+
+  if(w_markerGroup != undefined){
+    mymap.removeLayer(w_markerGroup);
+  }
   
-  let w_marker0 = L.marker([result["wikiData"][0]["lat"], result["wikiData"][0]["lng"]], {icon: w_icon}).addTo(mymap);
-  let w_marker1 = L.marker([result["wikiData"][1]["lat"], result["wikiData"][1]["lng"]], {icon: w_icon}).addTo(mymap);
-  let w_marker2 = L.marker([result["wikiData"][2]["lat"], result["wikiData"][2]["lng"]], {icon: w_icon}).addTo(mymap);
-  let w_marker3 = L.marker([result["wikiData"][3]["lat"], result["wikiData"][3]["lng"]], {icon: w_icon}).addTo(mymap);
+    w_markerGroup = L.layerGroup().addTo(mymap);
+  
+  let w_marker0 = L.marker([result["wikiData"][0]["lat"], result["wikiData"][0]["lng"]], {icon: w_icon}).addTo(w_markerGroup);
+  let w_marker1 = L.marker([result["wikiData"][1]["lat"], result["wikiData"][1]["lng"]], {icon: w_icon}).addTo(w_markerGroup);
+  let w_marker2 = L.marker([result["wikiData"][2]["lat"], result["wikiData"][2]["lng"]], {icon: w_icon}).addTo(w_markerGroup);
+  let w_marker3 = L.marker([result["wikiData"][3]["lat"], result["wikiData"][3]["lng"]], {icon: w_icon}).addTo(w_markerGroup);
+  let w_marker4 = L.marker([result["wikiData"][4]["lat"], result["wikiData"][4]["lng"]], {icon: w_icon}).addTo(w_markerGroup);
+
+  w_marker0.on('click', function(){
+    this.bindPopup();
+    this._popup.setContent(
+      "<h6>" + result["wikiData"][0]["title"] + "</h6><br>" +
+      result["wikiData"][0]["summary"] + "<br><br>" +
+      "url: " + result["wikiData"][0]["wikipediaUrl"]
+      );
+  })
+
+  w_marker1.on('click', function(){
+    this.bindPopup();
+    this._popup.setContent(
+      "<h6>" + result["wikiData"][1]["title"] + "</h6><br>" +
+      result["wikiData"][1]["summary"] + "<br><br>" +
+      "url: " + result["wikiData"][1]["wikipediaUrl"]
+      );
+  })
+
+  w_marker2.on('click', function(){
+    this.bindPopup();
+    this._popup.setContent(
+      "<h6>" + result["wikiData"][2]["title"] + "</h6><br>" +
+      result["wikiData"][2]["summary"] + "<br><br>" +
+      "url: " + result["wikiData"][2]["wikipediaUrl"]
+      );
+  })
+
+  w_marker3.on('click', function(){
+    this.bindPopup();
+    this._popup.setContent(
+      "<h6>" + result["wikiData"][3]["title"] + "</h6><br>" +
+      result["wikiData"][3]["summary"] + "<br><br>" +
+      "url: " + result["wikiData"][3]["wikipediaUrl"]
+      );
+  })
+
+  w_marker4.on('click', function(){
+    this.bindPopup();
+    this._popup.setContent(
+      "<h6>" + result["wikiData"][4]["title"] + "</h6><br>" +
+      result["wikiData"][4]["summary"] + "<br><br>" +
+      "url: " + result["wikiData"][4]["wikipediaUrl"]
+      );
+  })
+  
 }
 
-function setPointsOfInterest(result) {
+/*function setPointsOfInterest(result) {
   const p_icon = L.icon({
     iconUrl: 'media/svg/poi.svg',
     iconSize: [30, 30],
@@ -358,8 +431,25 @@ function setPointsOfInterest(result) {
   
   let p_marker0 = L.marker([result["poiData"][0]["lat"], result["poiData"][0]["lng"]], {icon: p_icon}).addTo(mymap);
   let p_marker1 = L.marker([result["poiData"][1]["lat"], result["poiData"][1]["lng"]], {icon: p_icon}).addTo(mymap);
-  let p_marker2 = L.marker([result["poiData"][2]["lat"], result["poiData"][2]["lng"]], {icon: p_icon}).addTo(mymap);
-}
+
+  p_marker0.on('click', function(){
+    this.bindPopup();
+    this._popup.setContent(
+      "<h6>" + result["poiData"][0]["name"] + "</h6><br>" +
+      result["poiData"][0]["typeClass"] + "<br><br>" +
+      result["poiData"][0]["typeName"]
+      );
+  })
+
+  p_marker1.on('click', function(){
+    this.bindPopup();
+    this._popup.setContent(
+      "<h6>" + result["poiData"][1]["name"] + "</h6><br>" +
+      result["poiData"][1]["typeClass"] + "<br><br>" +
+      result["poiData"][1]["typeName"]
+      );
+  })
+} */
 
 // SELECT COUNTRY FROM DROP-DOWN MENU
 
@@ -462,13 +552,13 @@ function getCountryBorders() {
       bounds = L.geoJSON(countryBorderObj, { style: polyStyle }).addTo(mymap);
       mymap.flyToBounds(bounds.getBounds(), {
         animate: true,
-        duration: 2.5,
+        duration: 2,
         maxZoom: 5.5,
       })
 
       getEarthquakes();
       getWiki();
-      getCityInfo();
+      //getCityInfo();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(`Error in CountryBorders: ${textStatus} ${errorThrown} ${jqXHR}`);
@@ -612,7 +702,7 @@ function getEarthquakes() {
   });
 }
 
-function getCityInfo() {
+/*function getCityInfo() {
   $.ajax({
     url: "php/getCityInfo.php",
     type: "POST",
@@ -650,7 +740,7 @@ function getPointsOfInterest() {
       alert(`Error in getPOIs: ${textStatus} ${errorThrown} ${jqXHR}`);
     },
   });
-}
+} */
 
 function getImages() {
   $.ajax({
@@ -794,7 +884,7 @@ function myChart() {
     responsive: true,
     title: {
       display: true,
-      text: 'COVID-19 by Country'
+      text: 'COVID-19 Time Series Graph (Last 30 Days)'
     },
   tooltips: {
     mode: 'index',

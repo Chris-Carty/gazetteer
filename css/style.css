@@ -196,11 +196,6 @@ body {
   background-size: 130%;
 }
 
-#image2,
-#image5 {
-  visibility: hidden;
-}
-
 /* MEDIA QUERIES */
 
 @media only screen and (min-width: 768px) {
@@ -393,6 +388,5 @@ body {
     margin: 5px;
     background-repeat: no-repeat;
     background-size: 120%;
-    visibility: visible;
   }
 }
