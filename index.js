@@ -165,7 +165,7 @@ const url =
   // LAYER/OVERLAYS CONFIGURATION //
 
 const baseLayers = {
-  "Light (click for weather)": otm,
+  "Light": otm,
   Satellite: ggl,
   Terrain: ggl2,
   Roadmap: ggl3,
