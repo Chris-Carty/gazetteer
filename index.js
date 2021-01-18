@@ -794,7 +794,7 @@ function myChart() {
     responsive: true,
     title: {
       display: true,
-      text: 'COVID-19 by Country and Territory'
+      text: 'COVID-19 by Country'
     },
   tooltips: {
     mode: 'index',
