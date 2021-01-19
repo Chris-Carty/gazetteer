@@ -62,6 +62,8 @@ const url =
 
 ///////////////////////////
 
+  mymap.locate({setView: false, maxZoom: 3}); 
+
 
   function onLocationFound(e) {
 
