@@ -1,3 +1,28 @@
+.pre-loader {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-color: #e7e1d7;
+  z-index: 1000000 !important;
+  animation: fadeOut ease 2s 8s forwards;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pre-loader img {
+  width: 500px;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 body {
   margin: 0 !important;
   -webkit-font-smoothing: antialiased !important;
