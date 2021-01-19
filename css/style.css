@@ -4,7 +4,7 @@
   position: absolute;
   background-color: #e7e1d7;
   z-index: 1000000 !important;
-  animation: fadeOut ease 2.5s 8s forwards;
+  animation: fadeOut ease 2.5s 7s forwards;
   display: flex;
   justify-content: center;
   align-items: center;
