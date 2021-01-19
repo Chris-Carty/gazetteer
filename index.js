@@ -63,7 +63,7 @@ const url =
 ///////////////////////////
 
 
-  /*function onLocationFound(e) {
+  function onLocationFound(e) {
 
     // GET USER COUNTRY INFO 
 
@@ -89,8 +89,8 @@ const url =
             console.log(result);
             if (result.status.code == 200) {
               setCountryInfo(result);
-              //getExchangeRate();
-              //getCurrencyName();
+              getExchangeRate();
+              getCurrencyName();
               getCovidData();
               getCountryBorders();
               getWeather();
@@ -115,7 +115,7 @@ const url =
 }
 
   mymap.on("locationerror", onLocationError); 
-  */
+
 
   /////////////////////////// 
 
@@ -834,7 +834,6 @@ let mychart = myChart();
 
 function setCovidGraph(result) {
   let countryCovid = result["data"][0]["countryName"];
-  console.log(countryCovid);
   countryData(countryCovid, covidstatus, mychart);
 };
 
