@@ -78,7 +78,7 @@ const url =
         lng: e["latlng"]["lng"],
       },
       success: function (result) {
-        console.log(result);
+        //console.log(result);
         $.ajax({
           url: "php/getCountryInfo.php",
           type: "POST",
@@ -88,7 +88,7 @@ const url =
             lang: "en",
           },
           success: function (result) {
-            console.log(result);
+            //console.log(result);
             if (result.status.code == 200) {
               setCountryInfo(result);
               getExchangeRate();
@@ -465,7 +465,7 @@ $('#selectCountry').change(function(){
           lang: "en"
       },
       success: function(result){
-          console.log(result);
+          //console.log(result);
           if(result.status.code == 200){
             setCountryInfo(result);
             getExchangeRate();
@@ -497,8 +497,7 @@ function onMapClick(e) {
       lng: e["latlng"]["lng"],
     },
     success: function (result) {
-      
-      console.log(result);
+      //console.log(result);
       $.ajax({
         url: "php/getCountryInfo.php",
         type: "POST",
@@ -509,7 +508,7 @@ function onMapClick(e) {
         },
         success: function (result) {
           
-          console.log(result);
+          //onsole.log(result);
           if (result.status.code == 200) {
             setCountryInfo(result);
             getExchangeRate();
@@ -542,7 +541,7 @@ function getCountryBorders() {
     type: "POST",
     dataType: "json",
     success: function (result) {
-      console.log(result);
+      //console.log(result);
       let countryBorderArr = result.data;
       let countryBorderObj = countryBorderArr.find(
         (country) => country.properties.iso_a3 === countryCodeIso3
@@ -582,7 +581,7 @@ function getWiki() {
       west: west
     },
     success: function (result) {
-      console.log(result);
+      //console.log(result);
       setWikiInfo(result);
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -602,7 +601,7 @@ function getExchangeRate() {
       currency: currencyCode,
     },
     success: function (result) {
-      console.log(result);
+      //console.log(result);
       let exchangeRatesObject = result.currencyExchangeRates.rates;
       exchangeRate = exchangeRatesObject[currencyCode];
       roundedExchangeRate = Math.round(exchangeRate * 100) / 10;
@@ -627,7 +626,7 @@ function getCurrencyName() {
       currency: currencyCode,
     },
     success: function (result) {
-      console.log(result);
+      //console.log(result);
       let currencyNameObject = result.currencyName;
       currencyName = currencyNameObject[currencyCode];
     },
@@ -645,7 +644,7 @@ function getCovidData() {
     type: "POST",
     dataType: "json",
     success: function (result) {
-      console.log(result);
+      //console.log(result);
       let covidArray = result.covidData;
       let covidObject = covidArray.find(
         (country) => country.CountryCode === countryCodeIso2
@@ -670,11 +669,11 @@ function getWeather() {
       country: countryCodeIso2,
     },
     success: function (weatherArr) {
-      console.log(weatherArr);
+      //console.log(weatherArr);
       setWeather(weatherArr);
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      console.log(`Error in getWeather: ${textStatus} ${errorThrown} ${jqXHR}`);
+      //console.log(`Error in getWeather: ${textStatus} ${errorThrown} ${jqXHR}`);
       alert('Weather data unavailable!');
     },
   });
@@ -694,11 +693,11 @@ function getEarthquakes() {
       west: west
     },
     success: function (result) {
-      console.log(result);
+      //console.log(result);
       setEarthquakes(result);
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      console.log(`Error in getEarthquakes: ${textStatus} ${errorThrown} ${jqXHR}`);
+      //console.log(`Error in getEarthquakes: ${textStatus} ${errorThrown} ${jqXHR}`);
       alert('Earthquake data unavailable!')
     },
   });
@@ -753,7 +752,7 @@ function getImages() {
       country: country
     },
     success: function (result) {
-      console.log(result);
+      //console.log(result);
       setImages(result);
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -768,6 +767,17 @@ function showLocation() {
   var info = document.getElementById('info')
   var visibility = info.style.visibility;
   info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+
+  var info2 = document.getElementById('info2')
+  var info3 = document.getElementById('info3')
+  var info4 = document.getElementById('info4')
+  var info5 = document.getElementById('info5')
+  var info6 = document.getElementById('info6')
+  info2.style.visibility = 'hidden';
+  info3.style.visibility = 'hidden';
+  info4.style.visibility = 'hidden';
+  info5.style.visibility = 'hidden';
+  info6.style.visibility = 'hidden';
 }
 
 function closeInfo() {
@@ -778,6 +788,17 @@ function showCurrency() {
   var info = document.getElementById('info2')
   var visibility = info.style.visibility;
   info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+
+  var info2 = document.getElementById('info')
+  var info3 = document.getElementById('info3')
+  var info4 = document.getElementById('info4')
+  var info5 = document.getElementById('info5')
+  var info6 = document.getElementById('info6')
+  info2.style.visibility = 'hidden';
+  info3.style.visibility = 'hidden';
+  info4.style.visibility = 'hidden';
+  info5.style.visibility = 'hidden';
+  info6.style.visibility = 'hidden';
 }
 
 function closeInfo2() {
@@ -788,6 +809,17 @@ function showCovid() {
   var info = document.getElementById('info3')
   var visibility = info.style.visibility;
   info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+
+  var info2 = document.getElementById('info')
+  var info3 = document.getElementById('info2')
+  var info4 = document.getElementById('info4')
+  var info5 = document.getElementById('info5')
+  var info6 = document.getElementById('info6')
+  info2.style.visibility = 'hidden';
+  info3.style.visibility = 'hidden';
+  info4.style.visibility = 'hidden';
+  info5.style.visibility = 'hidden';
+  info6.style.visibility = 'hidden';
 }
 
 function closeInfo3() {
@@ -798,6 +830,17 @@ function showGraph() {
   var info = document.getElementById('info4')
   var visibility = info.style.visibility;
   info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+
+  var info2 = document.getElementById('info')
+  var info3 = document.getElementById('info2')
+  var info4 = document.getElementById('info3')
+  var info5 = document.getElementById('info5')
+  var info6 = document.getElementById('info6')
+  info2.style.visibility = 'hidden';
+  info3.style.visibility = 'hidden';
+  info4.style.visibility = 'hidden';
+  info5.style.visibility = 'hidden';
+  info6.style.visibility = 'hidden';
 }
 
 function closeInfo4() {
@@ -808,6 +851,17 @@ function showWiki() {
   var info = document.getElementById('info5')
   var visibility = info.style.visibility;
   info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+
+  var info2 = document.getElementById('info')
+  var info3 = document.getElementById('info2')
+  var info4 = document.getElementById('info3')
+  var info5 = document.getElementById('info4')
+  var info6 = document.getElementById('info6')
+  info2.style.visibility = 'hidden';
+  info3.style.visibility = 'hidden';
+  info4.style.visibility = 'hidden';
+  info5.style.visibility = 'hidden';
+  info6.style.visibility = 'hidden';
 }
 
 function closeInfo5() {
@@ -818,6 +872,17 @@ function showImages() {
   var info = document.getElementById('info6')
   var visibility = info.style.visibility;
   info.style.visibility = visibility == 'hidden' ? 'visible' : 'hidden';
+
+  var info2 = document.getElementById('info')
+  var info3 = document.getElementById('info2')
+  var info4 = document.getElementById('info3')
+  var info5 = document.getElementById('info4')
+  var info6 = document.getElementById('info5')
+  info2.style.visibility = 'hidden';
+  info3.style.visibility = 'hidden';
+  info4.style.visibility = 'hidden';
+  info5.style.visibility = 'hidden';
+  info6.style.visibility = 'hidden';
 }
 
 function closeInfo6() {
