@@ -923,7 +923,7 @@ function getCountryData(status, country, chart, index) {
       chart.data.datasets[index].data = formatData(response.data, 'data');
       chart.update();
   }).catch(function(error) {
-      console.log(error);
+      //console.log(error);
   });
 }
 
