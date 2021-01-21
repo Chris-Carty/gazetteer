@@ -213,11 +213,17 @@ function setCountryInfo(result) {
       countryCodeIso2.toLowerCase() +
       "/shiny/64.png"
   );
+
+
+  let population = parseInt(result["data"][0]["population"]);
+  let popInMillions = Math.round(population) / 1000000;
+  let popRounded = Math.round(popInMillions * 100) / 100;
+
   $("#country").html(" " + country);
   $("#countryCode").html(" " + countryCodeIso3);
   $("#continent").html(" " + result["data"][0]["continentName"]);
   $("#capital").html(" " + capital);
-  $("#population").html(" " + result["data"][0]["population"]);
+  $("#population").html(" " + popRounded + " million");
   $("#languages").html(" " + result["data"][0]["languages"]);
 
   document.getElementById("selectCountry").value = countryCodeIso2;
