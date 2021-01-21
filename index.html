@@ -176,7 +176,6 @@
             <option value="SN">Senegal</option>
             <option value="RS">Serbia</option>
             <option value="SL">Sierra Leone</option>
-            <option value="SG">Singapore</option>
             <option value="SK">Slovakia</option>
             <option value="SI">Slovenia</option>
             <option value="SB">Solomon Islands</option>
@@ -255,27 +254,27 @@
                 <th colspan="2" class="text-center">Country Data</th> 
               </tr>
               <tr>
-                <td>Flag</td>
+                <td class="text-right">Flag</td>
                 <td><img id="flag2" src="" /></td> 
               </tr>
               <tr>
-                <td>Country</td>
+                <td class="text-right">Country</td>
                 <td><span id="country"></span></td> 
               </tr>
               <tr>
-                <td>Continent</td>
+                <td class="text-right">Continent</td>
                 <td><span id="continent"></span></td> 
               </tr>
               <tr>
-                <td>Capital</td>
-                <td><span id="capital"></span></td> 
+                <td class="text-right">Capital</td>
+                <td ><span id="capital"></span></td> 
               </tr>
               <tr>
-                <td>Population</td>
+                <td class="text-right">Population</td>
                 <td><span id="population"></span></td> 
               </tr>
               <tr>
-                <td>Languages</td>
+                <td class="text-right">Languages</td>
                 <td><span id="languages"></span></td> 
               </tr>
             </table>
@@ -292,27 +291,27 @@
                 <th colspan="2" class="text-center">Currency Data</th> 
               </tr>
               <tr>
-                <td>Currency</td>
+                <td class="text-right">Currency</td>
                 <td><span id="currencyName"></span></td> 
               </tr>
               <tr>
-                <td>Code</td>
+                <td class="text-right">Code</td>
                 <td><span id="currencyCode"></span></td> 
               </tr>
               <tr>
-                <td>Exchange Rate</td>
+                <td class="text-right">Exchange Rate</td>
                 <td><span id="exchangeRate"></span></td> 
               </tr>
               <tr>
-                <td>Base</td>
+                <td class="text-right">Base</td>
                 <td><span id="base"></span></td> 
               </tr>
-              <tr>
+              <!--<tr>
                 <td>Timestamp</td>
                 <td><span id="timestamp"></span></td> 
-              </tr>
+              </tr>-->
               <tr>
-                <td>Source</td>
+                <td class="text-right">Source</td>
                 <td><span id="source"></span></td> 
               </tr>
             </table>
@@ -329,27 +328,23 @@
                   <th colspan="2" class="text-center">Covid-19 Data</th> 
                 </tr>
                 <tr>
-                  <td>New Cases</td>
+                  <td class="text-right">New Cases</td>
                   <td><span id="newTotalCases"></span></td> 
                 </tr>
                 <tr>
-                  <td>Total Cases</td>
+                  <td class="text-right">Total Cases</td>
                   <td><span id="totalCases"></span></td> 
                 </tr>
                 <tr>
-                  <td>New Deaths</td>
+                  <td class="text-right">New Deaths</td>
                   <td><span id="covidDeathNew"></span></td> 
                 </tr>
                 <tr>
-                  <td>Total Deaths</td>
+                  <td class="text-right">Total Deaths</td>
                   <td><span id="covidDeathTotal"></span></td> 
                 </tr>
                 <tr>
-                  <td>Date</td>
-                  <td><span id="covidDate"></span></td> 
-                </tr>
-                <tr>
-                  <td>Source</td>
+                  <td class="text-right">Source</td>
                   <td><span>Johns Hopkins</span></td> 
                 </tr>
               </table>
@@ -376,7 +371,7 @@
       <div id="info4" class="font-style" style="visibility: hidden;">
         <img id="close" src="media/svg/close.svg" onclick="closeInfo4()"/>
         <div class="graph-wrapper">
-              <canvas id="myChart" style="width:100%; height:100%;"></canvas>
+              <canvas id="myChart" style="width:90%; height:90%;"></canvas>
         </div>
       </div>
 
@@ -389,38 +384,32 @@
                 <th class="text-center" colspan="4"><span id="capital2"></span></th>
               </tr>
               <tr>
-                <td>Date</td>
-                <td>Icon</td>
-                <td>description</td>
-                <td>Temp</td>
-              </tr>
-              <tr>
-                <td><span id="w_date"></span></td>
-                <td><img id="icon" src="" style="width:30px;" /></td>
+                <td class="text-right"><span id="w_date"></span></td>
+                <td><img id="icon" src="" style="width:30px;margin-left:20%;" /></td>
                 <td><span id="w_description"></span></td> 
                 <td><span id="w_temp"></span></td> 
               </tr>
               <tr>
-                <td><span id="w_date1"></span></td>
-                <td><img id="icon1" src="" style="width:30px;" /></td>
+                <td class="text-right"><span id="w_date1"></span></td>
+                <td><img id="icon1" src="" style="width:30px;margin-left:20%;" /></td>
                 <td><span id="w_description1"></span></td> 
                 <td><span id="w_temp1"></span></td> 
               </tr>
               <tr>
-                <td><span id="w_date2"></span></td>
-                <td><img id="icon2" src="" style="width:30px;" /></td>
+                <td class="text-right"><span id="w_date2"></span></td>
+                <td><img id="icon2" src="" style="width:30px;margin-left:20%;" /></td>
                 <td><span id="w_description2"></span></td> 
                 <td><span id="w_temp2"></span></td>  
               </tr>
               <tr>
-                <td><span id="w_date3"></span></td>
-                <td><img id="icon3" src="" style="width:30px;" /></td>
+                <td class="text-right"><span id="w_date3"></span></td>
+                <td><img id="icon3" src="" style="width:30px;margin-left:20%;" /></td>
                 <td><span id="w_description3"></span></td> 
                 <td><span id="w_temp3"></span></td> 
               </tr>
               <tr>
-                <td><span id="w_date4"></span></td>
-                <td><img id="icon4" src="" style="width:30px;" /></td>
+                <td class="text-right"><span id="w_date4"></span></td>
+                <td><img id="icon4" src="" style="width:30px;margin-left:20%;" /></td>
                 <td><span id="w_description4"></span></td> 
                 <td><span id="w_temp4"></span></td>
               </tr>

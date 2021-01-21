@@ -23,7 +23,6 @@ let w_markerGroup;
 // Vars Exchange Rate
 
 let currencyCode = "";
-let currencyName = "";
 let currencyBase = "";
 let currencyTimestamp = 0;
 let exchangeRate = 0;
@@ -92,7 +91,7 @@ const url =
             if (result.status.code == 200) {
               setCountryInfo(result);
               getExchangeRate();
-              getCurrencyName();
+              setTimeout( getCurrencyName(), 2000);
               getCovidData();
               getCountryBorders();
               getWeather();
@@ -225,12 +224,17 @@ function setCountryInfo(result) {
 }
 
 function setCurrencyInfo() {
-  $("#currencyName").html(" " + currencyName);
   $("#currencyCode").html(" " + currencyCode);
   $("#exchangeRate").html(" " + roundedExchangeRate);
   $("#base").html(" " + currencyBase);
   $("#timestamp").html(" " + currencyTimestamp);
   $("#source").html(" Open Exchange Rates");
+}
+
+function setCurrencyName(result) {
+  let currencyNameObject = result.currencyName;
+  let currencyName = currencyNameObject[currencyCode];
+  $("#currencyName").html(currencyName);
 }
 
 function setCovidData(covidObject) {
@@ -239,7 +243,6 @@ function setCovidData(covidObject) {
   $("#totalCases").html(" " + covidObject.TotalConfirmed);
   $("#covidDeathNew").html(" " + covidObject.NewDeaths);
   $("#covidDeathTotal").html(" " + covidObject.TotalDeaths);
-  $("#covidDate").html(" " + covidObject.Date);
 }
 
 function setImages(result) {
@@ -261,8 +264,22 @@ function setImages(result) {
 
 function setWeather(weatherArr) {
 
+  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  let dateString0 = weatherArr["weatherData"][0]["valid_date"].toString();
+  let dateString1 = weatherArr["weatherData"][1]["valid_date"].toString();
+  let dateString2 = weatherArr["weatherData"][2]["valid_date"].toString();
+  let dateString3 = weatherArr["weatherData"][3]["valid_date"].toString();
+  let dateString4 = weatherArr["weatherData"][4]["valid_date"].toString();
+  
+  let d0 = new Date(dateString0);
+  let d1 = new Date(dateString1);
+  let d2 = new Date(dateString2);
+  let d3 = new Date(dateString3);
+  let d4 = new Date(dateString4);
+
   //Day1
-  $("#w_date").html(weatherArr["weatherData"][0]["valid_date"])
+  $("#w_date").html(days[d0.getDay()])
   let icon = weatherArr["weatherData"][0]["weather"]["icon"];
   let icon_url= 'https://www.weatherbit.io/static/img/icons/' + icon + '.png';
   $("#icon").attr("src", icon_url);
@@ -271,7 +288,7 @@ function setWeather(weatherArr) {
   $("#w_temp").html(weatherArr["weatherData"][0]["temp"] + '°C');
 
     //Day2
-    $("#w_date1").html(weatherArr["weatherData"][1]["valid_date"])
+    $("#w_date1").html(days[d1.getDay()])
     let icon1 = weatherArr["weatherData"][1]["weather"]["icon"];
     let icon_url1= 'https://www.weatherbit.io/static/img/icons/' + icon1 + '.png';
     $("#icon1").attr("src", icon_url1);
@@ -279,7 +296,7 @@ function setWeather(weatherArr) {
     $("#w_temp1").html(weatherArr["weatherData"][1]["temp"] + '°C');
 
   //Day3
-  $("#w_date2").html(weatherArr["weatherData"][2]["valid_date"])
+  $("#w_date2").html(days[d2.getDay()])
   let icon2 = weatherArr["weatherData"][2]["weather"]["icon"];
   let icon_url2= 'https://www.weatherbit.io/static/img/icons/' + icon2 + '.png';
   $("#icon2").attr("src", icon_url2);
@@ -287,7 +304,7 @@ function setWeather(weatherArr) {
   $("#w_temp2").html(weatherArr["weatherData"][2]["temp"] + '°C');
 
     //Day4
-    $("#w_date3").html(weatherArr["weatherData"][3]["valid_date"])
+    $("#w_date3").html(days[d3.getDay()])
     let icon3 = weatherArr["weatherData"][3]["weather"]["icon"];
     let icon_url3= 'https://www.weatherbit.io/static/img/icons/' + icon3 + '.png';
     $("#icon3").attr("src", icon_url3);
@@ -295,13 +312,12 @@ function setWeather(weatherArr) {
     $("#w_temp3").html(weatherArr["weatherData"][3]["temp"] + '°C');
 
   //Day5
-  $("#w_date4").html(weatherArr["weatherData"][4]["valid_date"])
+  $("#w_date4").html(days[d4.getDay()])
   let icon4 = weatherArr["weatherData"][4]["weather"]["icon"];
   let icon_url4= 'https://www.weatherbit.io/static/img/icons/' + icon4 + '.png';
   $("#icon4").attr("src", icon_url4);
   $("#w_description4").html(weatherArr["weatherData"][4]["weather"]["description"]);
   $("#w_temp4").html(weatherArr["weatherData"][4]["temp"] + '°C');
-
   $("#capital2").html(" " + capital);
 }
 
@@ -381,7 +397,7 @@ function setWikiInfo(result) {
     this._popup.setContent(
       "<h6>" + result["wikiData"][0]["title"] + "</h6><br>" +
       result["wikiData"][0]["summary"] + "<br><br>" +
-      "url: " + result["wikiData"][0]["wikipediaUrl"]
+      "<a target='_blank' href=https://" + result["wikiData"][0]["wikipediaUrl"] + ">Read Full Article Here</a>"
       );
   })
 
@@ -390,7 +406,7 @@ function setWikiInfo(result) {
     this._popup.setContent(
       "<h6>" + result["wikiData"][1]["title"] + "</h6><br>" +
       result["wikiData"][1]["summary"] + "<br><br>" +
-      "url: " + result["wikiData"][1]["wikipediaUrl"]
+      "<a target='_blank' href=https://" + result["wikiData"][1]["wikipediaUrl"] + ">Read Full Article Here</a>"
       );
   })
 
@@ -399,7 +415,7 @@ function setWikiInfo(result) {
     this._popup.setContent(
       "<h6>" + result["wikiData"][2]["title"] + "</h6><br>" +
       result["wikiData"][2]["summary"] + "<br><br>" +
-      "url: " + result["wikiData"][2]["wikipediaUrl"]
+      "<a target='_blank' href=https://" + result["wikiData"][2]["wikipediaUrl"] + ">Read Full Article Here</a>"
       );
   })
 
@@ -408,7 +424,7 @@ function setWikiInfo(result) {
     this._popup.setContent(
       "<h6>" + result["wikiData"][3]["title"] + "</h6><br>" +
       result["wikiData"][3]["summary"] + "<br><br>" +
-      "url: " + result["wikiData"][3]["wikipediaUrl"]
+      "<a target='_blank' href=https://" + result["wikiData"][3]["wikipediaUrl"] + ">Read Full Article Here</a>"
       );
   })
 
@@ -417,7 +433,7 @@ function setWikiInfo(result) {
     this._popup.setContent(
       "<h6>" + result["wikiData"][4]["title"] + "</h6><br>" +
       result["wikiData"][4]["summary"] + "<br><br>" +
-      "url: " + result["wikiData"][4]["wikipediaUrl"]
+      "<a target='_blank' href=https://" + result["wikiData"][4]["wikipediaUrl"] + ">Read Full Article Here</a>"
       );
   })
   
@@ -627,8 +643,7 @@ function getCurrencyName() {
     },
     success: function (result) {
       //console.log(result);
-      let currencyNameObject = result.currencyName;
-      currencyName = currencyNameObject[currencyCode];
+      setCurrencyName(result);
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(`Error in getCurrencyName: ${textStatus} ${errorThrown} ${jqXHR}`);
@@ -640,7 +655,7 @@ function getCurrencyName() {
 
 function getCovidData() {
   $.ajax({
-    url: "php/getCovidData.php",
+    url: "php/covid/getCovidData.php",
     type: "POST",
     dataType: "json",
     success: function (result) {
@@ -912,20 +927,44 @@ function countryData(country, status, chart) {
 }
 
 function getLabelData(chart) {
-  axios.get('https://api.covid19api.com/total/country/italy/status/confirmed').then(function(response) {
+  $.ajax({
+    url: "php/covid/getCovidData2.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      country: 'italy',
+      status: 'confirmed' 
+    },
+    success: function (response) {
       chart.data.labels = formatData(response.data, 'label');
       chart.update();
-  })
-}
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(`Error in covidGraph: ${textStatus} ${errorThrown} ${jqXHR}`);
+    },
+  });
+} 
 
 function getCountryData(status, country, chart, index) {
-  axios.get('https://api.covid19api.com/total/country/'+country+'/status/'+status).then(function(response) {
+  $.ajax({
+    url: "php/covid/getCovidData2.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      country: country,
+      status: status 
+    },
+    success: function (response) {
       chart.data.datasets[index].data = formatData(response.data, 'data');
       chart.update();
-  }).catch(function(error) {
-      //console.log(error);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(`Error in covidGraph: ${textStatus} ${errorThrown} ${jqXHR}`);
+    },
   });
-}
+} 
+
+////////
 
 function formatData(data, type) {
   let list = [];
@@ -947,8 +986,14 @@ function myChart() {
           datasets: dataSets(covidstatus)
       },
       options: {
+        legend: {
+        labels: {
+            fontColor: "white",
+        }
+    },
     responsive: true,
     title: {
+      fontColor: "white",
       display: true,
       text: 'COVID-19 Time Series Graph (Last 30 Days)'
     },
@@ -962,9 +1007,15 @@ function myChart() {
   },
           scales: {
               xAxes: [{
+                ticks: {
+                  fontColor: "white",
+              },
         display: true,
       }],
       yAxes: [{
+        ticks: {
+          fontColor: "white",
+      },
         display: true,
       }]
           }
