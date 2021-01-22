@@ -29,6 +29,7 @@ body {
   -webkit-font-smoothing: antialiased !important;
   padding: 0;
   background-color: black !important;
+  overflow: hidden;
 }
 
 .header {
