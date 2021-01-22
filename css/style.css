@@ -148,8 +148,6 @@ body {
   flex-direction: column;
   justify-content: center;
   pointer-events: auto;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 .info-text span {
@@ -364,7 +362,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    overflow: scroll;
     pointer-events: auto;
   }
 
