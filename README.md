@@ -1,5 +1,5 @@
 # gazetteer
-Gazetteer Portfoli Project
+Gazetteer Portfolio Project
 
 LIVE WEBSITE 
 
