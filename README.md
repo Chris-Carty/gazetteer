@@ -6,7 +6,7 @@ Self-motivated project to practice AJAX / REST API principals.
 
 Languages used:
 
-Javascript, jQuery,  HTML, CSS. PHP
+Javascript, jQuery,  HTML, CSS, PHP.
 
 LIVE WEBSITE:
 
