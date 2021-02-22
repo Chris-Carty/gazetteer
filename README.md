@@ -2,7 +2,7 @@
 
 Gazetteer Portfolio Project
 
-Self-motivated project to practice AJAX / REST API principals.
+Self-motivated project to practice functional programming, AJAX / REST API principals, & handling GeoJson data.
 
 Languages used:
 
