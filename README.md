@@ -1,11 +1,14 @@
-# gazetteer
+# Gazetteer
+
 Gazetteer Portfolio Project
 
-Javascript, jQUERY,  HTML, CSS
+Self-motivated project to practice AJAX / REST API principals.
 
-REST API / AJAX practice
+Languages used:
 
-LIVE WEBSITE 
+Javascript, jQuery,  HTML, CSS. PHP
+
+LIVE WEBSITE:
 
 https://dashboard.heroku.com/apps/sleepy-anchorage-40050
 
