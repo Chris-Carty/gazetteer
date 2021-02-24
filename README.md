@@ -10,5 +10,5 @@ Javascript, jQuery,  HTML, CSS, PHP.
 
 LIVE WEBSITE:
 
-https://dashboard.heroku.com/apps/sleepy-anchorage-40050
+https://sleepy-anchorage-40050.herokuapp.com
 
